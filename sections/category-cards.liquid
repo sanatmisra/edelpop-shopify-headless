@@ -1,0 +1,58 @@
+<section class="section">
+  <div class="page-width stack">
+    <div class="stack">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="category-grid grid">
+      {%- for block in section.blocks -%}
+        <a class="category-card card" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+          <div class="media-shell" style="aspect-ratio: 1 / 1;">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '320,480,640,900', alt: block.settings.title }}
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+          <div class="category-card__content stack">
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category cards",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Schnell entdecken" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shoppe Edelpop nach Sorte, Bundle oder erstem Lieblingsmoment." }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Category card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Alle Produkte" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Vom ersten Probieren bis zum festen Snack-Ritual." },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category cards",
+      "blocks": [
+        { "type": "card", "settings": { "title": "Alle Produkte", "text": "Die ganze Edelpop Range auf einen Blick.", "link": "/collections/all" } },
+        { "type": "card", "settings": { "title": "Bestseller", "text": "Die Sorten mit dem schnellsten Griff zurück in die Schale.", "link": "/collections/all" } },
+        { "type": "card", "settings": { "title": "Probierpakete", "text": "Drei Sorten, kuratiert für den besten Einstieg.", "link": "/pages/bundles" } },
+        { "type": "card", "settings": { "title": "Nach Geschmack", "text": "Salt & Pepper, Cheese & Herbs oder Caramel.", "link": "/collections/all" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

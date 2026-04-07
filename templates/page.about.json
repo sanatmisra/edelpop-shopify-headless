@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-about-content",
+      "settings": {},
+      "blocks": {
+        "story-1": {
+          "type": "story",
+          "settings": {
+            "kicker": "Warum",
+            "title": "Besser snacken, ohne langweilig zu werden",
+            "text": "Edelpop ist für alle gedacht, die einen leichteren Premium-Snack suchen, ohne bei Geschmack, Design oder Charakter Kompromisse zu machen."
+          }
+        },
+        "story-2": {
+          "type": "story",
+          "settings": {
+            "kicker": "Produkt",
+            "title": "Gerösteter Makhana mit klarer Haltung",
+            "text": "Geröstet statt frittiert, leicht und knusprig, dazu drei Sorten mit eigener Stimmung: Salt & Pepper, Cheese & Herbs und Caramel."
+          }
+        },
+        "story-3": {
+          "type": "story",
+          "settings": {
+            "kicker": "Marke",
+            "title": "Warm, modern und retail-ready",
+            "text": "Edelpop verbindet Produktqualität mit einer visuellen Sprache, die sich auf dem Smartphone genauso stark anfühlt wie im Regal."
+          }
+        }
+      },
+      "block_order": ["story-1", "story-2", "story-3"]
+    }
+  },
+  "order": ["main"]
+}

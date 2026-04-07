@@ -1,0 +1,42 @@
+{%- liquid
+  assign card_product = product
+  assign descriptor = card_product.metafields.custom.short_descriptor.value | default: 'product.descriptor' | t
+  assign flavor_note = card_product.metafields.custom.flavor_notes.value | default: 'product.card_flavor_note' | t
+  assign selected_variant = card_product.selected_or_first_available_variant
+-%}
+<article class="product-card card">
+  <a href="{{ card_product.url }}" class="product-card__media media-shell">
+    {%- if card_product.featured_image -%}
+      {{ card_product.featured_image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '240,360,480,720', sizes: '(min-width: 750px) 25vw, 50vw', alt: card_product.featured_image.alt | default: card_product.title }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </a>
+  <div class="product-card__content stack">
+    <div class="cluster product-card__badges">
+      {%- if card_product.available and card_product.tags contains 'bestseller' -%}
+        <span class="badge">{{ 'general.labels.bestseller' | t }}</span>
+      {%- endif -%}
+      {%- if card_product.compare_at_price > card_product.price -%}
+        <span class="badge">{{ 'general.labels.save' | t }}</span>
+      {%- endif -%}
+      {%- if selected_variant.title != 'Default Title' -%}
+        <span class="badge badge--subtle">{{ selected_variant.title }}</span>
+      {%- endif -%}
+    </div>
+    <div class="stack">
+      <h3><a href="{{ card_product.url }}">{{ card_product.title }}</a></h3>
+      <p>{{ descriptor }}</p>
+      <p class="product-card__note">{{ flavor_note }}</p>
+    </div>
+    <div class="product-card__meta">
+      <div class="stack" style="gap: 0.2rem;">
+        <span class="price">{{ card_product.price | money }}</span>
+        {%- if selected_variant.title != 'Default Title' -%}
+          <span class="product-card__variant">{{ selected_variant.title }}</span>
+        {%- endif -%}
+      </div>
+      <a class="btn btn--ghost" href="{{ card_product.url }}">{{ 'general.buttons.view_product' | t }}</a>
+    </div>
+  </div>
+</article>

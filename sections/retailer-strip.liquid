@@ -1,0 +1,58 @@
+<section class="section">
+  <div class="page-width stack">
+    <div class="stack">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.text }}</p>
+    </div>
+    <div class="retailer-strip__grid grid">
+      {%- for block in section.blocks -%}
+        <div class="retailer-card card" {{ block.shopify_attributes }}>
+          <div class="stack">
+            <strong>{{ block.settings.name }}</strong>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="cluster">
+      <a class="btn btn--primary" href="{{ section.settings.link }}">{{ section.settings.link_label }}</a>
+      <span class="badge">{{ section.settings.badge }}</span>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Retailer strip",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Retail & Handel" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Edelpop ist gemacht für Regal, Theke und moderne Snack-Kategorien." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Für Handel, Stockists und Partner, die Premium-Snacking mit klarer Story und starker Regalwirkung suchen." },
+    { "type": "text", "id": "link_label", "label": "CTA label", "default": "Jetzt Händler werden" },
+    { "type": "url", "id": "link", "label": "CTA link" },
+    { "type": "text", "id": "badge", "label": "Badge", "default": "Deutschland-Launch" }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Proof card",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Handelspartner" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Platz für Stockists, Retailer, Presse oder Distribution." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Retailer strip",
+      "blocks": [
+        { "type": "logo", "settings": { "name": "Bald im Handel", "text": "Für Retailer und erste Stockists in Deutschland." } },
+        { "type": "logo", "settings": { "name": "Wholesale ready", "text": "Für Buyer, Stores und Distributoren." } },
+        { "type": "logo", "settings": { "name": "Launch Tastings", "text": "Für Events, Sampling und Community-Momente." } },
+        { "type": "logo", "settings": { "name": "Press & Partner", "text": "Für Medien, Kooperationen und Produkt-Features." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

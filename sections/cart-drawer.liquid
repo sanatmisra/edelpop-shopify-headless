@@ -1,0 +1,58 @@
+<div id="cart-drawer" class="drawer drawer--right" aria-hidden="true">
+  <div class="drawer__scrim"></div>
+  <div class="drawer__panel">
+    <div class="drawer__header">
+      <h2>{{ 'cart.title' | t }}</h2>
+      <button class="icon-button" type="button" data-close-drawer aria-label="{{ 'accessibility.close' | t }}">
+        {% render 'icon', icon: 'close' %}
+      </button>
+    </div>
+    <div class="drawer__body">
+      {%- if cart.item_count > 0 -%}
+        <div class="cart-drawer__summary card surface-muted">
+          <div class="stack">
+            <span class="eyebrow">{{ 'cart.title' | t }}</span>
+            <p>{{ 'cart.message' | t }}</p>
+          </div>
+        </div>
+        <div class="cart-drawer-items">
+          {%- for item in cart.items -%}
+            <article class="cart-line card cart-line--drawer">
+              <a class="cart-line__media" href="{{ item.url }}">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120,180,240', alt: item.product.title }}
+                {%- endif -%}
+              </a>
+              <div class="stack">
+                <strong>{{ item.product.title }}</strong>
+                <p>{{ item.variant.title }}</p>
+                <p>{{ item.quantity }} × {{ item.final_price | money }}</p>
+                <span class="price">{{ item.final_line_price | money }}</span>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="empty-state">
+          <p>{{ 'general.empty.cart' | t }}</p>
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="drawer__footer stack">
+      <div class="cluster" style="justify-content: space-between;">
+        <strong>{{ 'cart.subtotal' | t }}</strong>
+        <strong>{{ cart.total_price | money }}</strong>
+      </div>
+      <a class="btn btn--primary" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a>
+      <a class="btn btn--secondary" href="/checkout">{{ 'cart.checkout' | t }}</a>
+      <p class="cart-drawer__note">{{ 'cart.note' | t }}</p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": []
+}
+{% endschema %}

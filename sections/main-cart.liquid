@@ -1,0 +1,55 @@
+<section class="section">
+  <div class="page-width stack">
+    <div class="stack">
+      <span class="eyebrow">{{ 'cart.title' | t }}</span>
+      <h1>{{ 'cart.title' | t }}</h1>
+    </div>
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" novalidate>
+        <div class="cart-page__items">
+          {%- for item in cart.items -%}
+            <article class="cart-line card" style="padding: 0.75rem;">
+              <div class="cart-line__media">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '120,180,240,360', alt: item.product.title }}
+                {%- endif -%}
+              </div>
+              <div class="stack">
+                <strong>{{ item.product.title }}</strong>
+                <p>{{ item.variant.title }}</p>
+                <div class="qty-selector">
+                  <button type="button" data-qty-button="-1">{% render 'icon', icon: 'minus' %}</button>
+                  <input type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+                  <button type="button" data-qty-button="1">{% render 'icon', icon: 'plus' %}</button>
+                </div>
+                <span class="price">{{ item.final_line_price | money }}</span>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+        <div class="card" style="padding: 1rem;">
+          <div class="stack">
+            <div class="cluster" style="justify-content: space-between;">
+              <strong>{{ 'cart.subtotal' | t }}</strong>
+              <strong>{{ cart.total_price | money }}</strong>
+            </div>
+            <button class="btn btn--secondary" type="submit">Aktualisieren</button>
+            <button class="btn btn--primary" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="card empty-state">
+        <p>{{ 'general.empty.cart' | t }}</p>
+        <a class="btn btn--primary" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue_shopping' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main cart",
+  "settings": []
+}
+{% endschema %}

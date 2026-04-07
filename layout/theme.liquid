@@ -1,0 +1,106 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.primary_color }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} · {{ current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} · {{ 'general.pagination.page' | t: number: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} · {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {{ content_for_header }}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <script>
+      document.documentElement.classList.remove('no-js');
+      (function() {
+        var stored = localStorage.getItem('edelpop-theme');
+        var theme = stored || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+
+    <style>
+      :root {
+        --page-width: 1200px;
+        --gutter: 1rem;
+        --radius-xs: 0.5rem;
+        --radius-sm: 0.875rem;
+        --radius-md: 1.5rem;
+        --radius-lg: 2rem;
+        --radius-xl: 2.75rem;
+        --shadow-soft: 0 18px 45px rgba(17, 16, 20, 0.08);
+        --shadow-card: 0 14px 32px rgba(17, 16, 20, 0.1);
+        --shadow-lift: 0 24px 60px rgba(17, 16, 20, 0.16);
+        --font-display: {{ settings.font_display.family }}, {{ settings.font_display.fallback_families }};
+        --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+        --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+        --color-background: {{ settings.color_background }};
+        --color-foreground: {{ settings.color_foreground }};
+        --color-muted: {{ settings.color_muted }};
+        --color-muted-foreground: {{ settings.color_muted_foreground }};
+        --color-card: {{ settings.color_card }};
+        --color-card-foreground: {{ settings.color_card_foreground }};
+        --color-border: {{ settings.color_border }};
+        --color-primary: {{ settings.primary_color }};
+        --color-primary-foreground: {{ settings.primary_foreground_color }};
+        --color-secondary: {{ settings.secondary_color }};
+        --color-secondary-foreground: {{ settings.secondary_foreground_color }};
+        --color-accent: {{ settings.accent_color }};
+        --color-accent-foreground: {{ settings.accent_foreground_color }};
+        --color-button: {{ settings.button_background }};
+        --color-button-text: {{ settings.button_text }};
+        --color-input: {{ settings.input_background }};
+        --color-overlay: {{ settings.overlay_color }};
+        --color-footer: {{ settings.footer_background }};
+        --color-footer-foreground: {{ settings.footer_foreground }};
+      }
+
+      html[data-theme="dark"] {
+        --color-background: {{ settings.dark_color_background }};
+        --color-foreground: {{ settings.dark_color_foreground }};
+        --color-muted: {{ settings.dark_color_muted }};
+        --color-muted-foreground: {{ settings.dark_color_muted_foreground }};
+        --color-card: {{ settings.dark_color_card }};
+        --color-card-foreground: {{ settings.dark_color_card_foreground }};
+        --color-border: {{ settings.dark_color_border }};
+        --color-primary: {{ settings.dark_primary_color }};
+        --color-primary-foreground: {{ settings.dark_primary_foreground_color }};
+        --color-secondary: {{ settings.dark_secondary_color }};
+        --color-secondary-foreground: {{ settings.dark_secondary_foreground_color }};
+        --color-accent: {{ settings.dark_accent_color }};
+        --color-accent-foreground: {{ settings.dark_accent_foreground_color }};
+        --color-button: {{ settings.dark_button_background }};
+        --color-button-text: {{ settings.dark_button_text }};
+        --color-input: {{ settings.dark_input_background }};
+        --color-overlay: {{ settings.dark_overlay_color }};
+        --color-footer: {{ settings.dark_footer_background }};
+        --color-footer-foreground: {{ settings.dark_footer_foreground }};
+      }
+    </style>
+  </head>
+  <body class="template-{{ template.name | handle }}">
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+    {% section 'cart-drawer' %}
+
+    <main id="MainContent" class="site-main" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  </body>
+  </html>

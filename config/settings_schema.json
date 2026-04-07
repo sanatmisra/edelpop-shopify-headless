@@ -1,0 +1,141 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Edelpop OS 2.0",
+    "theme_version": "1.0.0",
+    "theme_author": "Codex",
+    "theme_documentation_url": "https://shopify.dev/docs/storefronts/themes",
+    "theme_support_url": "https://shopify.dev"
+  },
+  {
+    "name": "Brand assets",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_inverse",
+        "label": "Logo for dark mode"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_display",
+        "label": "Display font",
+        "default": "assistant_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "assistant_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "assistant_n4"
+      }
+    ]
+  },
+  {
+    "name": "Light mode colors",
+    "settings": [
+      { "type": "color", "id": "color_background", "label": "Background", "default": "#fbf6ed" },
+      { "type": "color", "id": "color_foreground", "label": "Foreground", "default": "#201b1b" },
+      { "type": "color", "id": "color_muted", "label": "Muted", "default": "#f0e8dc" },
+      { "type": "color", "id": "color_muted_foreground", "label": "Muted foreground", "default": "#6f645d" },
+      { "type": "color", "id": "color_card", "label": "Card", "default": "#fffdf8" },
+      { "type": "color", "id": "color_card_foreground", "label": "Card foreground", "default": "#201b1b" },
+      { "type": "color", "id": "color_border", "label": "Border", "default": "#dccfbc" },
+      { "type": "color", "id": "primary_color", "label": "Primary", "default": "#214d3f" },
+      { "type": "color", "id": "primary_foreground_color", "label": "Primary foreground", "default": "#fff9ef" },
+      { "type": "color", "id": "secondary_color", "label": "Secondary", "default": "#f4b95f" },
+      { "type": "color", "id": "secondary_foreground_color", "label": "Secondary foreground", "default": "#2f2216" },
+      { "type": "color", "id": "accent_color", "label": "Accent", "default": "#d56b4d" },
+      { "type": "color", "id": "accent_foreground_color", "label": "Accent foreground", "default": "#fff8f1" },
+      { "type": "color", "id": "button_background", "label": "Button background", "default": "#214d3f" },
+      { "type": "color", "id": "button_text", "label": "Button text", "default": "#fff9ef" },
+      { "type": "color", "id": "input_background", "label": "Input background", "default": "#fffdf8" },
+      { "type": "text", "id": "overlay_color", "label": "Overlay", "default": "rgba(21, 16, 11, 0.55)" },
+      { "type": "color", "id": "footer_background", "label": "Footer background", "default": "#201b1b" },
+      { "type": "color", "id": "footer_foreground", "label": "Footer foreground", "default": "#fff7ef" }
+    ]
+  },
+  {
+    "name": "Dark mode colors",
+    "settings": [
+      { "type": "color", "id": "dark_color_background", "label": "Background", "default": "#161312" },
+      { "type": "color", "id": "dark_color_foreground", "label": "Foreground", "default": "#f7eee1" },
+      { "type": "color", "id": "dark_color_muted", "label": "Muted", "default": "#231f1c" },
+      { "type": "color", "id": "dark_color_muted_foreground", "label": "Muted foreground", "default": "#c9bdaf" },
+      { "type": "color", "id": "dark_color_card", "label": "Card", "default": "#1f1a18" },
+      { "type": "color", "id": "dark_color_card_foreground", "label": "Card foreground", "default": "#f7eee1" },
+      { "type": "color", "id": "dark_color_border", "label": "Border", "default": "#3d342f" },
+      { "type": "color", "id": "dark_primary_color", "label": "Primary", "default": "#92cf9e" },
+      { "type": "color", "id": "dark_primary_foreground_color", "label": "Primary foreground", "default": "#182017" },
+      { "type": "color", "id": "dark_secondary_color", "label": "Secondary", "default": "#ffd17c" },
+      { "type": "color", "id": "dark_secondary_foreground_color", "label": "Secondary foreground", "default": "#2d2115" },
+      { "type": "color", "id": "dark_accent_color", "label": "Accent", "default": "#ef8c6e" },
+      { "type": "color", "id": "dark_accent_foreground_color", "label": "Accent foreground", "default": "#2b1914" },
+      { "type": "color", "id": "dark_button_background", "label": "Button background", "default": "#92cf9e" },
+      { "type": "color", "id": "dark_button_text", "label": "Button text", "default": "#1a1d1a" },
+      { "type": "color", "id": "dark_input_background", "label": "Input background", "default": "#231f1c" },
+      { "type": "text", "id": "dark_overlay_color", "label": "Overlay", "default": "rgba(7, 7, 7, 0.62)" },
+      { "type": "color", "id": "dark_footer_background", "label": "Footer background", "default": "#0f0d0c" },
+      { "type": "color", "id": "dark_footer_foreground", "label": "Footer foreground", "default": "#f8efdf" }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "text",
+        "id": "header_tagline",
+        "label": "Header tagline",
+        "default": "Gerösteter Premium-Crunch für moderne Snack-Momente."
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_sticky_header",
+        "label": "Enable sticky header",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "text",
+        "id": "footer_tagline",
+        "label": "Footer tagline",
+        "default": "Drei Sorten, null Langeweile."
+      },
+      {
+        "type": "textarea",
+        "id": "footer_intro",
+        "label": "Footer intro",
+        "default": "Edelpop bringt gerösteten Makhana in einen Snack-Moment, der leicht, knusprig und klar premium wirkt."
+      },
+      {
+        "type": "text",
+        "id": "footer_email",
+        "label": "Contact email",
+        "default": "hello@edelpop.de"
+      },
+      {
+        "type": "text",
+        "id": "footer_instagram",
+        "label": "Instagram URL"
+      }
+    ]
+  }
+]

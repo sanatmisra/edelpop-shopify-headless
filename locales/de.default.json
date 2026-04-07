@@ -1,0 +1,125 @@
+{
+  "accessibility": {
+    "skip_to_content": "Zum Inhalt springen",
+    "close": "Schließen",
+    "menu": "Menü öffnen",
+    "cart": "Warenkorb",
+    "search": "Suche",
+    "theme_toggle": "Farbschema wechseln"
+  },
+  "general": {
+    "pagination": {
+      "page": "Seite {{ number }}"
+    },
+    "buttons": {
+      "shop_now": "Jetzt entdecken",
+      "view_product": "Produkt ansehen",
+      "learn_more": "Mehr erfahren",
+      "view_all": "Alles ansehen",
+      "add_to_cart": "In den Warenkorb",
+      "quick_add": "Schnell hinzufügen",
+      "read_more": "Weiterlesen",
+      "contact_us": "Kontakt aufnehmen",
+      "apply": "Anwenden"
+    },
+    "labels": {
+      "new": "Neu",
+      "bestseller": "Bestseller",
+      "bundle": "Bundle",
+      "save": "Spare",
+      "from": "Ab"
+    },
+    "navigation": {
+      "shop": "Shop",
+      "bundles": "Bundles",
+      "about": "Über Edelpop",
+      "journal": "Journal",
+      "wholesale": "Handel",
+      "faq": "FAQ",
+      "search_placeholder": "Produkte, Seiten oder Journal durchsuchen"
+    },
+    "newsletter": {
+      "title": "Bleib nah an Edelpop",
+      "subtitle": "Neue Sorten, erste Stockists und Launch-Updates zuerst erfahren.",
+      "email": "E-Mail-Adresse",
+      "submit": "Eintragen"
+    },
+    "language": {
+      "label": "Sprache",
+      "german": "Deutsch",
+      "english": "English"
+    },
+    "theme": {
+      "light": "Hell",
+      "dark": "Dunkel"
+    },
+    "empty": {
+      "cart": "Dein Warenkorb ist noch leer.",
+      "search": "Keine Treffer gefunden.",
+      "collection": "Hier kommt gleich etwas Knuspriges.",
+      "blog": "Die ersten Edelpop Stories erscheinen in Kürze."
+    }
+  },
+  "product": {
+    "descriptor": "Gerösteter Premium-Snack aus Makhana mit leichtem Crunch.",
+    "card_flavor_note": "Leicht geröstet, angenehm knusprig, modern im Finish.",
+    "quantity": "Menge",
+    "flavor_notes": "Geschmacksprofil",
+    "texture_notes": "Textur",
+    "ingredients": "Zutaten",
+    "shipping": "Versand & Retouren",
+    "related": "Das passt dazu",
+    "nutrition": "Nährwerte",
+    "tax_note": "inkl. MwSt. zzgl. Versand",
+    "benefits": {
+      "roasted": "Geröstet statt frittiert",
+      "light": "Leicht & knusprig",
+      "routine": "Für moderne Snack-Momente gemacht"
+    },
+    "service": {
+      "shipping": "Schneller Versand innerhalb Deutschlands",
+      "returns": "Sauber verpackt, einfach bestellbar"
+    }
+  },
+  "cart": {
+    "title": "Warenkorb",
+    "subtotal": "Zwischensumme",
+    "checkout": "Zur Kasse",
+    "remove": "Entfernen",
+    "view_cart": "Warenkorb ansehen",
+    "continue_shopping": "Weiter shoppen",
+    "message": "Fast geschafft. Edelpop liegt schon bereit.",
+    "note": "Versand und Rabatte werden im Checkout berechnet."
+  },
+  "collection": {
+    "sort": "Sortieren",
+    "previous": "Zurück",
+    "load_more": "Mehr laden"
+  },
+  "sections": {
+    "hero": {
+      "eyebrow": "Premium gerösteter Makhana",
+      "title": "Knusprig. Leicht. Edelpop.",
+      "text": "Drei Sorten, klarer Charakter und ein leichter Crunch, der sich sofort nach modernem Snacking anfühlt.",
+      "primary_cta": "Sorten entdecken",
+      "secondary_cta": "Mehr über Edelpop",
+      "chip_1": "Geröstet statt frittiert",
+      "chip_2": "Leicht & knusprig",
+      "chip_3": "Bald im Handel"
+    },
+    "trust": {
+      "title_1": "Geröstet statt frittiert",
+      "title_2": "Leicht & knusprig",
+      "title_3": "Premium Snack-Moment",
+      "title_4": "Für jeden Tag gemacht"
+    },
+    "footer": {
+      "tagline": "Premium crunch for modern routines.",
+      "contact": "Kontakt",
+      "follow": "Folgen",
+      "shop": "Shop",
+      "help": "Hilfe",
+      "legal": "Rechtliches"
+    }
+  }
+}

@@ -1,0 +1,56 @@
+<section class="section">
+  <div class="page-width stack">
+    <div class="cluster" style="justify-content: space-between; align-items: end;">
+      <div class="stack">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+      <div class="cluster">
+        <button class="icon-button" type="button" data-slider-prev>{% render 'icon', icon: 'arrow-right' %}</button>
+        <button class="icon-button" type="button" data-slider-next>{% render 'icon', icon: 'arrow-right' %}</button>
+      </div>
+    </div>
+    <div class="slider" data-slider>
+      {%- for block in section.blocks -%}
+        <article class="testimonial-card card" {{ block.shopify_attributes }}>
+          <div class="testimonial-card__content stack">
+            <span class="badge">{{ block.settings.context }}</span>
+            <h3>“{{ block.settings.quote }}”</h3>
+            <p>{{ block.settings.name }}</p>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials slider",
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Endlich ein Snack, der leicht wirkt und trotzdem Charakter hat." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Leonie, Berlin" },
+        { "type": "text", "id": "context", "label": "Context", "default": "Launch Tasting" }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Stimmen" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "So fühlt sich Edelpop im Alltag an." }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials slider",
+      "blocks": [
+        { "type": "quote" },
+        { "type": "quote", "settings": { "quote": "Caramel hat genau die richtige Süße für den Abend. Nicht laut, sondern einfach sehr gut gemacht.", "name": "Nina, München", "context": "Filmabend" } },
+        { "type": "quote", "settings": { "quote": "Cheese & Herbs sieht nach Premium aus und schmeckt auch so. Das bleibt im Kopf.", "name": "David, Hamburg", "context": "Retail Feedback" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

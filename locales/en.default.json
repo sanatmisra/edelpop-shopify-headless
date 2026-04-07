@@ -1,0 +1,125 @@
+{
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "close": "Close",
+    "menu": "Open menu",
+    "cart": "Cart",
+    "search": "Search",
+    "theme_toggle": "Toggle color scheme"
+  },
+  "general": {
+    "pagination": {
+      "page": "Page {{ number }}"
+    },
+    "buttons": {
+      "shop_now": "Shop now",
+      "view_product": "View product",
+      "learn_more": "Learn more",
+      "view_all": "View all",
+      "add_to_cart": "Add to cart",
+      "quick_add": "Quick add",
+      "read_more": "Read more",
+      "contact_us": "Contact us",
+      "apply": "Apply"
+    },
+    "labels": {
+      "new": "New",
+      "bestseller": "Bestseller",
+      "bundle": "Bundle",
+      "save": "Save",
+      "from": "From"
+    },
+    "navigation": {
+      "shop": "Shop",
+      "bundles": "Bundles",
+      "about": "About Edelpop",
+      "journal": "Journal",
+      "wholesale": "Wholesale",
+      "faq": "FAQ",
+      "search_placeholder": "Search products, pages or journal"
+    },
+    "newsletter": {
+      "title": "Stay close to Edelpop",
+      "subtitle": "Be first to hear about new flavours, stockists and launch updates.",
+      "email": "Email address",
+      "submit": "Sign up"
+    },
+    "language": {
+      "label": "Language",
+      "german": "Deutsch",
+      "english": "English"
+    },
+    "theme": {
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "empty": {
+      "cart": "Your cart is still empty.",
+      "search": "No results found.",
+      "collection": "Something crunchy will land here soon.",
+      "blog": "The first Edelpop stories are coming soon."
+    }
+  },
+  "product": {
+    "descriptor": "Premium roasted makhana snack with a light, clean crunch.",
+    "card_flavor_note": "Roasted, crisp and easy to come back to.",
+    "quantity": "Quantity",
+    "flavor_notes": "Flavour notes",
+    "texture_notes": "Texture",
+    "ingredients": "Ingredients",
+    "shipping": "Shipping & returns",
+    "related": "You may also like",
+    "nutrition": "Nutrition",
+    "tax_note": "incl. VAT plus shipping",
+    "benefits": {
+      "roasted": "Roasted instead of fried",
+      "light": "Light and crunchy",
+      "routine": "Built for modern snack routines"
+    },
+    "service": {
+      "shipping": "Fast shipping across Germany",
+      "returns": "Packed well and easy to order"
+    }
+  },
+  "cart": {
+    "title": "Cart",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "view_cart": "View cart",
+    "continue_shopping": "Continue shopping",
+    "message": "Almost there. Your Edelpop selection is waiting.",
+    "note": "Shipping and discounts are calculated at checkout."
+  },
+  "collection": {
+    "sort": "Sort",
+    "previous": "Back",
+    "load_more": "Load more"
+  },
+  "sections": {
+    "hero": {
+      "eyebrow": "Premium roasted foxnuts",
+      "title": "Crunch, the Edelpop way.",
+      "text": "Three flavours, zero boredom. Edelpop turns roasted makhana into a modern snack ritual with premium energy.",
+      "primary_cta": "Shop the range",
+      "secondary_cta": "Why Edelpop?",
+      "chip_1": "Roasted, not fried",
+      "chip_2": "Light and crunchy",
+      "chip_3": "Retail launch soon"
+    },
+    "trust": {
+      "title_1": "Roasted not fried",
+      "title_2": "Light and crunchy",
+      "title_3": "Premium snack moment",
+      "title_4": "Made for every day"
+    },
+    "footer": {
+      "tagline": "Modern crunch for every day.",
+      "contact": "Contact",
+      "follow": "Follow",
+      "shop": "Shop",
+      "help": "Help",
+      "legal": "Legal"
+    }
+  }
+}

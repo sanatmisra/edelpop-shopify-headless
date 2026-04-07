@@ -1,0 +1,44 @@
+<section class="section featured-flavor">
+  <div class="page-width">
+    <div class="featured-flavor__shell card">
+      <div class="stack">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+        <p class="lead">{{ section.settings.text }}</p>
+        <div class="pill-row">
+          <span class="badge">{{ section.settings.note_1 }}</span>
+          <span class="badge">{{ section.settings.note_2 }}</span>
+          <span class="badge">{{ section.settings.note_3 }}</span>
+        </div>
+        <a class="btn btn--primary" href="{{ section.settings.link }}">{{ section.settings.link_label }}</a>
+      </div>
+      <div class="media-shell" style="aspect-ratio: 1 / 1;">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '480,720,960,1200', alt: section.settings.heading }}
+        {%- else -%}
+          {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured flavor",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Sorten im Fokus" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Salt & Pepper, Cheese & Herbs oder Caramel. Jede Sorte mit eigener Stimmung." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Edelpop spielt nicht auf Lautstärke, sondern auf Klarheit: würzig, cremig oder süß, immer leicht, knusprig und modern im Gefühl." },
+    { "type": "text", "id": "note_1", "label": "Note 1", "default": "Leichter Crunch" },
+    { "type": "text", "id": "note_2", "label": "Note 2", "default": "Drei Sorten" },
+    { "type": "text", "id": "note_3", "label": "Note 3", "default": "Modernes Snacking" },
+    { "type": "text", "id": "link_label", "label": "CTA label", "default": "Alle Sorten ansehen" },
+    { "type": "url", "id": "link", "label": "CTA link" },
+    { "type": "image_picker", "id": "image", "label": "Image" }
+  ],
+  "presets": [
+    { "name": "Featured flavor" }
+  ]
+}
+{% endschema %}

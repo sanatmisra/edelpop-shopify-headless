@@ -1,0 +1,48 @@
+<section class="section bundle-spotlight">
+  <div class="page-width">
+    <div class="bundle-spotlight__shell card">
+      <div class="stack">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+        <p class="lead">{{ section.settings.text }}</p>
+        <div class="pill-row">
+          <span class="badge">{{ section.settings.badge_1 }}</span>
+          <span class="badge">{{ section.settings.badge_2 }}</span>
+          <span class="badge">{{ section.settings.badge_3 }}</span>
+        </div>
+        <div class="cluster">
+          <a class="btn btn--primary" href="{{ section.settings.link }}">{{ section.settings.link_label }}</a>
+          <span class="badge">{{ section.settings.savings_badge }}</span>
+        </div>
+      </div>
+      <div class="media-shell" style="aspect-ratio: 1 / 1;">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '480,720,960,1200', alt: section.settings.heading }}
+        {%- else -%}
+          {{ 'product-3' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bundle spotlight",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Probierpaket" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Drei Sorten, ein sauberer Einstieg in die ganze Edelpop Welt." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Ideal zum Probieren, Teilen oder Verschenken: Salt & Pepper, Cheese & Herbs und Caramel in einem Bundle mit klarer Produktstory." },
+    { "type": "text", "id": "badge_1", "label": "Badge 1", "default": "3 Sorten" },
+    { "type": "text", "id": "badge_2", "label": "Badge 2", "default": "Zum Teilen" },
+    { "type": "text", "id": "badge_3", "label": "Badge 3", "default": "Bester Einstieg" },
+    { "type": "text", "id": "savings_badge", "label": "Savings badge", "default": "Bundle Vorteil" },
+    { "type": "text", "id": "link_label", "label": "CTA label", "default": "Probierpaket ansehen" },
+    { "type": "url", "id": "link", "label": "CTA link" },
+    { "type": "image_picker", "id": "image", "label": "Image" }
+  ],
+  "presets": [
+    { "name": "Bundle spotlight" }
+  ]
+}
+{% endschema %}

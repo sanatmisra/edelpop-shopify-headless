@@ -1,0 +1,27 @@
+{%- liquid
+  assign icon_name = icon | default: 'arrow-right'
+-%}
+<span class="icon icon--{{ icon_name }}" aria-hidden="true">
+  {%- case icon_name -%}
+    {%- when 'menu' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    {%- when 'close' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    {%- when 'cart' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5h2l2.4 9.5a1 1 0 0 0 1 .75h8.9a1 1 0 0 0 .98-.78L20 8H7"/><circle cx="10" cy="19" r="1.5"/><circle cx="18" cy="19" r="1.5"/></svg>
+    {%- when 'search' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    {%- when 'sun-moon' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v2.2M12 18.8V21M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M3 12h2.2M18.8 12H21M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/><path d="M14.5 7.8a5.5 5.5 0 1 0 1.7 8.5 6 6 0 1 1-1.7-8.5Z"/></svg>
+    {%- when 'chevron-down' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 9 6 6 6-6"/></svg>
+    {%- when 'arrow-right' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+    {%- when 'plus' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+    {%- when 'minus' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14"/></svg>
+    {%- else -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/></svg>
+  {%- endcase -%}
+</span>

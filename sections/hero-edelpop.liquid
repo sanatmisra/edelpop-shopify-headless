@@ -1,0 +1,102 @@
+<section class="section hero">
+  <div class="page-width">
+    <div class="hero__shell card">
+      <div class="hero__copy stack">
+        <span class="eyebrow">{{ section.settings.eyebrow | default: 'sections.hero.eyebrow' | t }}</span>
+        <h1 class="headline-display">{{ section.settings.heading | default: 'sections.hero.title' | t }}</h1>
+        <p class="lead">{{ section.settings.text | default: 'sections.hero.text' | t }}</p>
+        {%- if section.settings.proof_text != blank -%}
+          <div class="hero-proof">{{ section.settings.proof_text }}</div>
+        {%- endif -%}
+        <div class="cluster hero__chips">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'chip' -%}
+              <span class="badge" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="cluster">
+          <a class="btn btn--primary" href="{{ section.settings.primary_link | default: routes.all_products_collection_url }}">{{ section.settings.primary_label | default: 'sections.hero.primary_cta' | t }}</a>
+          <a class="btn btn--secondary" href="{{ section.settings.secondary_link | default: '/pages/why-edelpop' }}">{{ section.settings.secondary_label | default: 'sections.hero.secondary_cta' | t }}</a>
+        </div>
+      </div>
+
+      <div class="hero__visual">
+        <div class="hero__orb"></div>
+        <div class="hero__grid"></div>
+        {%- if section.settings.sticker_text != blank -%}
+          <div class="hero__sticker">{{ section.settings.sticker_text }}</div>
+        {%- endif -%}
+        <div class="hero-packshots">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'packshot' -%}
+              <div class="hero-pack" {{ block.shopify_attributes }}>
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '220,320,480,720', alt: block.settings.alt_text | default: block.settings.title }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+                <div class="hero-pack__label">
+                  <strong>{{ block.settings.title }}</strong>
+                  {%- if block.settings.caption != blank -%}
+                    <span>{{ block.settings.caption }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Edelpop",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Premium gerösteter Makhana" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Knusprig. Leicht. Edelpop." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Gerösteter Makhana mit leichtem Crunch, starker Regalwirkung und einem Snack-Gefühl, das modern, warm und klar premium wirkt." },
+    { "type": "text", "id": "proof_text", "label": "Proof text", "default": "Drei Sorten. Geröstet statt frittiert. Gemacht für jeden Tag." },
+    { "type": "text", "id": "sticker_text", "label": "Sticker text", "default": "Launch Soon" },
+    { "type": "text", "id": "primary_label", "label": "Primary CTA label", "default": "Sorten entdecken" },
+    { "type": "url", "id": "primary_link", "label": "Primary CTA link" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary CTA label", "default": "Mehr über Edelpop" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary CTA link" }
+  ],
+  "blocks": [
+    {
+      "type": "chip",
+      "name": "Badge chip",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Geröstet statt frittiert" }
+      ]
+    },
+    {
+      "type": "packshot",
+      "name": "Packshot",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Flavor title", "default": "Salt & Pepper" },
+        { "type": "text", "id": "caption", "label": "Caption", "default": "Leicht, würzig, klar." },
+        { "type": "text", "id": "alt_text", "label": "Alt text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Edelpop",
+      "blocks": [
+        { "type": "chip", "settings": { "text": "Geröstet statt frittiert" } },
+        { "type": "chip", "settings": { "text": "Leicht & knusprig" } },
+        { "type": "chip", "settings": { "text": "Bald im Handel" } },
+        { "type": "packshot", "settings": { "title": "Salt & Pepper" } },
+        { "type": "packshot", "settings": { "title": "Cheese & Herbs" } },
+        { "type": "packshot", "settings": { "title": "Caramel" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

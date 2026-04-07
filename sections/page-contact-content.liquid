@@ -1,0 +1,50 @@
+<section class="section">
+  <div class="page-width stack">
+    <div class="page-hero">
+      <div class="page-hero__shell card">
+        <div class="stack">
+          <span class="eyebrow">Kontakt</span>
+          <h1>{{ section.settings.heading }}</h1>
+          <p class="lead">{{ section.settings.intro }}</p>
+        </div>
+        <div class="stack">
+          <div class="card surface-muted" style="padding: 1rem;">
+            <strong>Customer Support</strong>
+            <p>{{ section.settings.support_text }}</p>
+          </div>
+          <div class="card surface-muted" style="padding: 1rem;">
+            <strong>Wholesale & Press</strong>
+            <p>{{ section.settings.wholesale_text }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% form 'contact', class: 'contact-form card', style: 'padding: 1rem;' %}
+      <div class="field">
+        <label class="visually-hidden" for="ContactName">Name</label>
+        <input id="ContactName" type="text" name="contact[name]" placeholder="Name">
+      </div>
+      <div class="field">
+        <label class="visually-hidden" for="ContactEmail">E-Mail</label>
+        <input id="ContactEmail" type="email" name="contact[email]" placeholder="E-Mail" required>
+      </div>
+      <div class="field">
+        <label class="visually-hidden" for="ContactMessage">Nachricht</label>
+        <textarea id="ContactMessage" name="contact[body]" placeholder="Nachricht"></textarea>
+      </div>
+      <button class="btn btn--primary" type="submit">Nachricht senden</button>
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact content",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Sprich mit Edelpop" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Für Fragen, Händleranfragen, Presse oder einfach guten Geschmack." },
+    { "type": "textarea", "id": "support_text", "label": "Support text", "default": "Antworten zu Produkten, Bestellungen und allem rund um deinen Snack-Moment." },
+    { "type": "textarea", "id": "wholesale_text", "label": "Wholesale text", "default": "Für Retailer, Buyer und Distributor-Anfragen mit Fokus auf Range, POS und Launch." }
+  ]
+}
+{% endschema %}

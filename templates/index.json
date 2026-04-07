@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "hero": { "type": "hero-edelpop", "settings": {} },
+    "trust": { "type": "trust-strip", "settings": {} },
+    "categories": { "type": "category-cards", "settings": {} },
+    "statement": { "type": "brand-statement", "settings": {} },
+    "benefits": { "type": "benefits-icons", "settings": {} },
+    "featured": { "type": "featured-flavor", "settings": {} },
+    "bestsellers": { "type": "bestsellers-grid", "settings": {} },
+    "bundle": { "type": "bundle-spotlight", "settings": {} },
+    "testimonials": { "type": "testimonials-slider", "settings": {} },
+    "retailer": { "type": "retailer-strip", "settings": {} },
+    "gallery": { "type": "lifestyle-gallery", "settings": {} },
+    "newsletter": { "type": "newsletter-cta", "settings": {} }
+  },
+  "order": ["hero", "trust", "categories", "statement", "benefits", "featured", "bestsellers", "bundle", "testimonials", "retailer", "gallery", "newsletter"]
+}

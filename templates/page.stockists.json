@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-stockists-content",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

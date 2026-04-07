@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-bundles-content",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

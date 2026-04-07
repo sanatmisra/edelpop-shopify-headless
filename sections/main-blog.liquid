@@ -1,0 +1,69 @@
+<section class="section">
+  <div class="page-width stack">
+    <div class="page-hero">
+      <div class="page-hero__shell card">
+        <div class="stack">
+          <span class="eyebrow">Journal</span>
+          <h1>{{ blog.title }}</h1>
+          <p class="lead">{{ blog.metafields.custom.intro.value | default: 'Stories über Makhana, gerösteten Crunch und moderne Snack-Routinen mit Edelpop.' }}</p>
+        </div>
+        <div class="media-shell" style="aspect-ratio: 1 / 1;">{{ 'blog-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+      </div>
+    </div>
+
+    {%- paginate blog.articles by 9 -%}
+      {%- if blog.articles_count > 0 -%}
+        <div class="blog-grid grid">
+          {%- for article in blog.articles -%}
+            <article class="editorial-card card">
+              <a class="media-shell" href="{{ article.url }}" style="aspect-ratio: 1 / 1;">
+                {%- if article.image -%}
+                  {{ article.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '320,480,640,900', alt: article.title }}
+                {%- else -%}
+                  {{ 'blog-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </a>
+              <div class="editorial-card__content stack">
+                <span class="eyebrow">{{ article.published_at | date: '%d.%m.%Y' }}</span>
+                <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+                <p>{{ article.excerpt_or_content | strip_html | truncatewords: 24 }}</p>
+                <a class="btn btn--ghost" href="{{ article.url }}">{{ 'general.buttons.read_more' | t }}</a>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="blog-grid grid">
+          <article class="editorial-card card">
+            <div class="editorial-card__content stack">
+              <span class="eyebrow">Wissen</span>
+              <h3>Was ist Makhana und warum snackt Deutschland gerade darauf?</h3>
+              <p>Ein kompakter Einstieg in die Welt von Foxnuts, Textur, Röstung und warum Edelpop daraus einen moderneren Snack macht.</p>
+            </div>
+          </article>
+          <article class="editorial-card card">
+            <div class="editorial-card__content stack">
+              <span class="eyebrow">Vergleich</span>
+              <h3>Geröstet statt frittiert: Warum sich der Crunch anders anfühlt</h3>
+              <p>Wie Röstung, Leichtigkeit und Geschmack zusammenspielen und warum das im Alltag einen Unterschied macht.</p>
+            </div>
+          </article>
+          <article class="editorial-card card">
+            <div class="editorial-card__content stack">
+              <span class="eyebrow">Alltag</span>
+              <h3>Drei Sorten, viele Momente: So passt Edelpop in moderne Routinen</h3>
+              <p>Vom Schreibtisch bis zum Filmabend: Salt & Pepper, Cheese & Herbs und Caramel im richtigen Moment.</p>
+            </div>
+          </article>
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main blog",
+  "settings": []
+}
+{% endschema %}

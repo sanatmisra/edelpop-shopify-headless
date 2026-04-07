@@ -1,0 +1,18 @@
+{%- liquid
+  assign eyebrow_text = eyebrow | default: blank
+  assign heading_text = heading | default: blank
+  assign body_text = text | default: blank
+  assign align_class = align | default: 'left'
+  assign tag = heading_tag | default: 'h2'
+-%}
+<div class="section-heading section-heading--{{ align_class }} stack">
+  {%- if eyebrow_text != blank -%}
+    <span class="eyebrow">{{ eyebrow_text }}</span>
+  {%- endif -%}
+  {%- if heading_text != blank -%}
+    <{{ tag }}>{{ heading_text }}</{{ tag }}>
+  {%- endif -%}
+  {%- if body_text != blank -%}
+    <p class="lead">{{ body_text }}</p>
+  {%- endif -%}
+</div>

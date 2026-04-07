@@ -1,0 +1,36 @@
+<section class="section statement">
+  <div class="page-width">
+    <div class="statement__shell card">
+      <div class="stack">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+        <p class="lead">{{ section.settings.text }}</p>
+        <a class="btn btn--primary" href="{{ section.settings.link }}">{{ section.settings.link_label }}</a>
+      </div>
+      <div class="media-shell" style="aspect-ratio: 0.95 / 1;">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '480,720,960,1200', alt: section.settings.heading }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand statement",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Edelpop Gefühl" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Besser snacken, ohne langweilig zu werden." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Edelpop macht aus geröstetem Makhana einen warmen, modernen Premium-Snack für Routinen, in denen Leichtigkeit genauso wichtig ist wie Geschmack und Haltung." },
+    { "type": "text", "id": "link_label", "label": "CTA label", "default": "Über Edelpop" },
+    { "type": "url", "id": "link", "label": "CTA link" },
+    { "type": "image_picker", "id": "image", "label": "Image" }
+  ],
+  "presets": [
+    { "name": "Brand statement" }
+  ]
+}
+{% endschema %}

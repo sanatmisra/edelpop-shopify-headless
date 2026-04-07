@@ -1,0 +1,41 @@
+<section class="section trust-strip section--flush-top">
+  <div class="page-width">
+    <div class="trust-strip__grid grid">
+      {%- for block in section.blocks -%}
+        <div class="trust-item card" {{ block.shopify_attributes }}>
+          <div class="stack">
+            <span class="kicker">{{ block.settings.kicker }}</span>
+            <strong>{{ block.settings.title }}</strong>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust strip",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker", "default": "Edelpop" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Geröstet statt frittiert" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust strip",
+      "blocks": [
+        { "type": "item", "settings": { "kicker": "Textur", "title": "Leicht und knusprig" } },
+        { "type": "item", "settings": { "kicker": "Röstung", "title": "Geröstet statt frittiert" } },
+        { "type": "item", "settings": { "kicker": "Alltag", "title": "Moderner Premium-Snack" } },
+        { "type": "item", "settings": { "kicker": "Sorten", "title": "Drei Sorten, null Langeweile" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

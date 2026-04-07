@@ -1,0 +1,22 @@
+<article class="section">
+  <div class="page-width stack" style="max-width: 50rem;">
+    <span class="eyebrow">{{ article.blog.title }}</span>
+    <h1>{{ article.title }}</h1>
+    <p class="lead">{{ article.excerpt_or_content | strip_html | truncatewords: 30 }}</p>
+    {%- if article.image -%}
+      <div class="media-shell">
+        {{ article.image | image_url: width: 1600 | image_tag: loading: 'eager', widths: '480,720,960,1200,1600', alt: article.title }}
+      </div>
+    {%- endif -%}
+    <div class="rte">
+      {{ article.content }}
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Main article",
+  "settings": []
+}
+{% endschema %}

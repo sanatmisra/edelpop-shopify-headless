@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-why-edelpop-content",
+      "settings": {},
+      "blocks": {
+        "point-1": {
+          "type": "point",
+          "settings": {
+            "kicker": "Makhana",
+            "title": "Die Basis: Foxnuts mit leichtem Crunch",
+            "text": "Makhana bringt eine eigenständige, leichte Knusprigkeit mit und fühlt sich dadurch moderner an als viele klassische Snack-Routinen."
+          }
+        },
+        "point-2": {
+          "type": "point",
+          "settings": {
+            "kicker": "Röstung",
+            "title": "Geröstet statt frittiert",
+            "text": "Edelpop setzt auf Röstung, damit der Snack klar, leicht und angenehm im Alltag bleibt."
+          }
+        },
+        "point-3": {
+          "type": "point",
+          "settings": {
+            "kicker": "Sorten",
+            "title": "Drei Sorten, null Langeweile",
+            "text": "Salt & Pepper, Cheese & Herbs und Caramel decken würzige, cremige und süßere Momente ab, ohne beliebig zu wirken."
+          }
+        }
+      },
+      "block_order": ["point-1", "point-2", "point-3"]
+    }
+  },
+  "order": ["main"]
+}

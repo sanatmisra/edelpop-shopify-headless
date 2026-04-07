@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-wholesale-content",
+      "settings": {},
+      "blocks": {
+        "point-1": {
+          "type": "point",
+          "settings": {
+            "kicker": "Regal",
+            "title": "Starke Wirkung am POS",
+            "text": "Edelpop ist auf Wiedererkennbarkeit und schnelle Orientierung in der Snack-Kategorie ausgelegt."
+          }
+        },
+        "point-2": {
+          "type": "point",
+          "settings": {
+            "kicker": "Range",
+            "title": "Drei Sorten mit klarer Rollenverteilung",
+            "text": "Salt & Pepper, Cheese & Herbs und Caramel geben dem Sortiment Würze, Cremigkeit und einen süßen Abschluss."
+          }
+        },
+        "point-3": {
+          "type": "point",
+          "settings": {
+            "kicker": "Kategorie",
+            "title": "Premium-Snacking mit moderner Story",
+            "text": "Gerösteter Makhana trifft auf eine Marke, die klar, warm und retail-ready kommuniziert."
+          }
+        }
+      },
+      "block_order": ["point-1", "point-2", "point-3"]
+    }
+  },
+  "order": ["main"]
+}

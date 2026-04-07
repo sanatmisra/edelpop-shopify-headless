@@ -1,0 +1,58 @@
+<footer class="footer" role="contentinfo">
+  <div class="page-width footer__shell">
+    <div class="footer-grid grid">
+      <div class="footer-group">
+        <div class="footer-logo">
+          {%- if settings.logo_inverse != blank -%}
+            {{ settings.logo_inverse | image_url: width: 360 | image_tag: loading: 'lazy', widths: '180,240,360', alt: shop.name }}
+          {%- elsif settings.logo != blank -%}
+            {{ settings.logo | image_url: width: 360 | image_tag: loading: 'lazy', widths: '180,240,360', alt: shop.name }}
+          {%- else -%}
+            {{ shop.name }}
+          {%- endif -%}
+        </div>
+        <p class="lead">{{ settings.footer_intro }}</p>
+        <span class="eyebrow">{{ settings.footer_tagline }}</span>
+      </div>
+
+      <div class="footer-group">
+        <strong>{{ 'sections.footer.shop' | t }}</strong>
+        <a href="{{ routes.all_products_collection_url }}">{{ 'general.navigation.shop' | t }}</a>
+        <a href="/pages/bundles">{{ 'general.navigation.bundles' | t }}</a>
+        <a href="/pages/stockists">Stockists</a>
+        <a href="/pages/why-edelpop">Why Edelpop</a>
+      </div>
+
+      <div class="footer-group">
+        <strong>{{ 'sections.footer.help' | t }}</strong>
+        <a href="/pages/faq">{{ 'general.navigation.faq' | t }}</a>
+        <a href="/pages/contact">Kontakt</a>
+        <a href="/search">{{ 'accessibility.search' | t }}</a>
+        <a href="/blogs/news">{{ 'general.navigation.journal' | t }}</a>
+      </div>
+
+      <div class="footer-group">
+        <strong>{{ 'sections.footer.contact' | t }}</strong>
+        <a href="mailto:{{ settings.footer_email }}">{{ settings.footer_email }}</a>
+        {%- if settings.footer_instagram != blank -%}
+          <a href="{{ settings.footer_instagram }}" target="_blank" rel="noopener">Instagram</a>
+        {%- endif -%}
+        {% form 'localization', class: 'localization-form', data-localization-form: true %}
+            <label class="visually-hidden" for="FooterLanguage">{{ 'general.language.label' | t }}</label>
+            <select id="FooterLanguage" name="locale_code" aria-label="{{ 'general.language.label' | t }}">
+              {%- for locale in localization.available_languages -%}
+                <option value="{{ locale.iso_code }}" {% if locale.iso_code == localization.language.iso_code %}selected{% endif %}>{{ locale.endonym_name }}</option>
+              {%- endfor -%}
+            </select>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": []
+}
+{% endschema %}

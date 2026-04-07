@@ -1,0 +1,51 @@
+<section class="section">
+  <div class="page-width stack">
+    <div class="stack">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="benefits-grid grid">
+      {%- for block in section.blocks -%}
+        <div class="benefit-card card" {{ block.shopify_attributes }}>
+          <div class="stack">
+            <span class="badge">{{ block.settings.badge }}</span>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefits icons",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Warum Edelpop" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Premium crunch for modern routines." }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "badge", "label": "Badge", "default": "Edelpop" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Geröstet statt frittiert" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Leichter Crunch mit modernem Premium-Gefühl statt schwerem Snack-Nachhall." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefits icons",
+      "blocks": [
+        { "type": "benefit", "settings": { "badge": "Röstung", "title": "Geröstet statt frittiert", "text": "Für einen klareren, moderneren Snack-Moment." } },
+        { "type": "benefit", "settings": { "badge": "Textur", "title": "Leicht und knusprig", "text": "Angenehmer Crunch, der präsent ist, ohne schwer zu wirken." } },
+        { "type": "benefit", "settings": { "badge": "Routine", "title": "Moderner Premium-Snack", "text": "Gemacht für Schreibtisch, Sofa, Zug und geteilte Abende." } },
+        { "type": "benefit", "settings": { "badge": "Sorten", "title": "Drei Sorten, null Langeweile", "text": "Salt & Pepper, Cheese & Herbs und Caramel." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

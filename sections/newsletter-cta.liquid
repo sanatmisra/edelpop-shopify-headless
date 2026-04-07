@@ -1,0 +1,36 @@
+<section class="section newsletter-cta">
+  <div class="page-width">
+    <div class="newsletter-cta__shell card">
+      <div class="stack">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+        <p class="lead">{{ section.settings.text }}</p>
+      </div>
+      <div>
+        {%- form 'customer', class: 'newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="field">
+            <label class="visually-hidden" for="NewsletterEmail">{{ 'general.newsletter.email' | t }}</label>
+            <input id="NewsletterEmail" type="email" name="contact[email]" placeholder="{{ 'general.newsletter.email' | t }}" required>
+          </div>
+          <button class="btn btn--primary" type="submit">{{ section.settings.button_label }}</button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter CTA",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Edelpop Updates" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Bleib nah dran an Launch, Sorten und neuen Snack-Momenten." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Neue Sorten, erste Stockists und nur die Updates, die wirklich Lust auf mehr machen." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Eintragen" }
+  ],
+  "presets": [
+    { "name": "Newsletter CTA" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,83 @@
+<header class="site-header" role="banner">
+  <div class="page-width site-header__inner">
+    <button class="icon-button header-menu-toggle" type="button" data-open-drawer="menu-drawer" aria-label="{{ 'accessibility.menu' | t }}">
+      {% render 'icon', icon: 'menu' %}
+    </button>
+
+    <a class="header-logo" href="{{ routes.root_url }}">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 240 | image_tag: loading: 'eager', widths: '120,180,240', alt: shop.name }}
+      {%- else -%}
+        <span>{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    <nav class="desktop-nav" aria-label="{{ 'general.navigation.shop' | t }}">
+      <a href="{{ routes.all_products_collection_url }}">{{ 'general.navigation.shop' | t }}</a>
+      <a href="/pages/bundles">{{ 'general.navigation.bundles' | t }}</a>
+      <a href="/pages/about">{{ 'general.navigation.about' | t }}</a>
+      <a href="{{ blogs.news.url | default: '/blogs/news' }}">{{ 'general.navigation.journal' | t }}</a>
+      <a href="/pages/wholesale">{{ 'general.navigation.wholesale' | t }}</a>
+      <a href="/pages/faq">{{ 'general.navigation.faq' | t }}</a>
+    </nav>
+
+    <div class="header-utility">
+      {% form 'localization', class: 'localization-form', data-localization-form: true %}
+          <label class="visually-hidden" for="HeaderLanguage">{{ 'general.language.label' | t }}</label>
+          <select id="HeaderLanguage" name="locale_code" aria-label="{{ 'general.language.label' | t }}">
+            {%- for locale in localization.available_languages -%}
+              <option value="{{ locale.iso_code }}" {% if locale.iso_code == localization.language.iso_code %}selected{% endif %}>{{ locale.endonym_name }}</option>
+            {%- endfor -%}
+          </select>
+      {% endform %}
+      <button class="icon-button" type="button" data-theme-toggle aria-label="{{ 'accessibility.theme_toggle' | t }}">
+        {% render 'icon', icon: 'sun-moon' %}
+      </button>
+      <a class="icon-button" href="{{ routes.search_url }}" aria-label="{{ 'accessibility.search' | t }}">
+        {% render 'icon', icon: 'search' %}
+      </a>
+      <button class="icon-button" type="button" data-open-drawer="cart-drawer" aria-label="{{ 'accessibility.cart' | t }}">
+        {% render 'icon', icon: 'cart' %}
+      </button>
+    </div>
+  </div>
+
+  <div id="menu-drawer" class="drawer drawer--left" aria-hidden="true">
+    <div class="drawer__scrim"></div>
+    <div class="drawer__panel">
+      <div class="drawer__header">
+        <strong>{{ shop.name }}</strong>
+        <button class="icon-button" type="button" data-close-drawer aria-label="{{ 'accessibility.close' | t }}">
+          {% render 'icon', icon: 'close' %}
+        </button>
+      </div>
+      <div class="drawer__body">
+        <nav class="mobile-nav">
+          <a class="mobile-nav__link" href="{{ routes.all_products_collection_url }}">{{ 'general.navigation.shop' | t }} {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/collections/all?filter.v.option.flavor=Salt%20%26%20Pepper">Salt &amp; Pepper {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/collections/all?filter.v.option.flavor=Cheese%20%26%20Herbs">Cheese &amp; Herbs {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/collections/all?filter.v.option.flavor=Caramel">Caramel {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/pages/bundles">{{ 'general.navigation.bundles' | t }} {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/pages/about">{{ 'general.navigation.about' | t }} {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/pages/why-edelpop">Why Edelpop {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/pages/wholesale">{{ 'general.navigation.wholesale' | t }} {% render 'icon', icon: 'arrow-right' %}</a>
+        </nav>
+      </div>
+      <div class="drawer__footer stack">
+        <p>{{ settings.header_tagline }}</p>
+        <div class="cluster">
+          <button class="btn btn--secondary" type="button" data-theme-toggle>
+            <span data-theme-toggle-label data-light-label="{{ 'general.theme.dark' | t }}" data-dark-label="{{ 'general.theme.light' | t }}">{{ 'general.theme.dark' | t }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": []
+}
+{% endschema %}

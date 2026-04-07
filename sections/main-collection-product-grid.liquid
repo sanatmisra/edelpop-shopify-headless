@@ -1,0 +1,125 @@
+<section class="section">
+  <div class="page-width stack">
+    <div class="collection-hero">
+      <div class="collection-hero__shell card">
+        {% render 'section-heading', eyebrow: section.settings.eyebrow, heading: collection.title, heading_tag: 'h1', text: collection.description | strip_html | default: section.settings.fallback_text %}
+        <div class="media-shell" style="aspect-ratio: 1 / 1;">
+          {%- if collection.featured_image -%}
+            {{ collection.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '480,720,960,1200', alt: collection.title }}
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="collection-layout">
+      <button class="btn btn--secondary collection-mobile-filter" type="button" data-open-drawer="collection-filters-{{ section.id }}">
+        {{ section.settings.filter_button_label }}
+      </button>
+
+      <aside class="facets card" aria-label="Filters">
+        <div class="stack" style="padding: 1rem;">
+          <strong>{{ section.settings.filter_title }}</strong>
+          {%- for filter in collection.filters -%}
+            <details>
+              <summary>{{ filter.label }}</summary>
+              <div class="stack" style="padding-top: 0.75rem;">
+                {%- for value in filter.values -%}
+                  <label class="cluster">
+                    <input type="checkbox" disabled {% if value.active %}checked{% endif %}>
+                    <span>{{ value.label }} ({{ value.count }})</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </details>
+          {%- else -%}
+            <p>{{ section.settings.filter_empty }}</p>
+          {%- endfor -%}
+        </div>
+      </aside>
+
+      <div id="collection-filters-{{ section.id }}" class="drawer drawer--left" aria-hidden="true">
+        <div class="drawer__scrim"></div>
+        <div class="drawer__panel">
+          <div class="drawer__header">
+            <h2>{{ section.settings.filter_title }}</h2>
+            <button class="icon-button" type="button" data-close-drawer aria-label="{{ 'accessibility.close' | t }}">
+              {% render 'icon', icon: 'close' %}
+            </button>
+          </div>
+          <div class="drawer__body">
+            <div class="stack">
+              {%- for filter in collection.filters -%}
+                <details class="card collection-filter-group">
+                  <summary>{{ filter.label }}</summary>
+                  <div class="stack collection-filter-values">
+                    {%- for value in filter.values -%}
+                      <label class="cluster">
+                        <input type="checkbox" disabled {% if value.active %}checked{% endif %}>
+                        <span>{{ value.label }} ({{ value.count }})</span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                </details>
+              {%- else -%}
+                <p>{{ section.settings.filter_empty }}</p>
+              {%- endfor -%}
+            </div>
+          </div>
+          <div class="drawer__footer">
+            <button class="btn btn--primary" type="button" data-close-drawer>{{ 'general.buttons.apply' | t }}</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="filter-bar">
+          <span class="filter-bar__count">{{ collection.products_count }} {{ section.settings.products_label }}</span>
+          {%- paginate collection.products by section.settings.products_per_page -%}
+            <form method="get" class="collection-sort-form">
+              <label class="visually-hidden" for="SortBy">{{ 'collection.sort' | t }}</label>
+              <select id="SortBy" name="sort_by" onchange="this.form.submit()">
+                {%- for option in collection.sort_options -%}
+                  <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+                {%- endfor -%}
+              </select>
+            </form>
+          {%- endpaginate -%}
+        </div>
+        {%- paginate collection.products by section.settings.products_per_page -%}
+          {%- if collection.products_count > 0 -%}
+            <div class="product-grid grid">
+              {%- for product in collection.products -%}
+                {% render 'product-card', product: product %}
+              {%- endfor -%}
+            </div>
+            <div class="cluster" style="justify-content: center;">
+              {%- if paginate.previous -%}<a class="btn btn--secondary" href="{{ paginate.previous.url }}">{{ 'collection.previous' | t }}</a>{%- endif -%}
+              {%- if paginate.next -%}<a class="btn btn--primary" href="{{ paginate.next.url }}">{{ 'collection.load_more' | t }}</a>{%- endif -%}
+            </div>
+          {%- else -%}
+            <div class="card empty-state">
+              <h2>{{ 'general.empty.collection' | t }}</h2>
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main collection grid",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Edelpop Shop" },
+    { "type": "textarea", "id": "fallback_text", "label": "Fallback text", "default": "Drei Sorten, leichter Crunch und eine klare Auswahl für moderne Snack-Routinen." },
+    { "type": "text", "id": "filter_title", "label": "Filter title", "default": "Sortieren & filtern" },
+    { "type": "text", "id": "filter_button_label", "label": "Mobile filter button", "default": "Filtern" },
+    { "type": "text", "id": "products_label", "label": "Products label", "default": "Produkte" },
+    { "type": "text", "id": "filter_empty", "label": "Empty filter text", "default": "Collection-Filter erscheinen hier, sobald sie in Shopify aktiviert sind." },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 4, "max": 24, "step": 4, "default": 8 }
+  ]
+}
+{% endschema %}

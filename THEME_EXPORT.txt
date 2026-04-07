@@ -1,0 +1,3491 @@
+FILE: layout/theme.liquid
+
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.primary_color }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} · {{ current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} · {{ 'general.pagination.page' | t: number: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} · {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {{ content_for_header }}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <script>
+      document.documentElement.classList.remove('no-js');
+      (function() {
+        var stored = localStorage.getItem('edelpop-theme');
+        var theme = stored || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+
+    <style>
+      :root {
+        --page-width: 1200px;
+        --gutter: 1rem;
+        --radius-xs: 0.5rem;
+        --radius-sm: 0.875rem;
+        --radius-md: 1.5rem;
+        --radius-lg: 2rem;
+        --radius-xl: 2.75rem;
+        --shadow-soft: 0 18px 45px rgba(17, 16, 20, 0.08);
+        --shadow-card: 0 14px 32px rgba(17, 16, 20, 0.1);
+        --shadow-lift: 0 24px 60px rgba(17, 16, 20, 0.16);
+        --font-display: {{ settings.font_display.family }}, {{ settings.font_display.fallback_families }};
+        --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+        --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+        --color-background: {{ settings.color_background }};
+        --color-foreground: {{ settings.color_foreground }};
+        --color-muted: {{ settings.color_muted }};
+        --color-muted-foreground: {{ settings.color_muted_foreground }};
+        --color-card: {{ settings.color_card }};
+        --color-card-foreground: {{ settings.color_card_foreground }};
+        --color-border: {{ settings.color_border }};
+        --color-primary: {{ settings.primary_color }};
+        --color-primary-foreground: {{ settings.primary_foreground_color }};
+        --color-secondary: {{ settings.secondary_color }};
+        --color-secondary-foreground: {{ settings.secondary_foreground_color }};
+        --color-accent: {{ settings.accent_color }};
+        --color-accent-foreground: {{ settings.accent_foreground_color }};
+        --color-button: {{ settings.button_background }};
+        --color-button-text: {{ settings.button_text }};
+        --color-input: {{ settings.input_background }};
+        --color-overlay: {{ settings.overlay_color }};
+        --color-footer: {{ settings.footer_background }};
+        --color-footer-foreground: {{ settings.footer_foreground }};
+      }
+
+      html[data-theme="dark"] {
+        --color-background: {{ settings.dark_color_background }};
+        --color-foreground: {{ settings.dark_color_foreground }};
+        --color-muted: {{ settings.dark_color_muted }};
+        --color-muted-foreground: {{ settings.dark_color_muted_foreground }};
+        --color-card: {{ settings.dark_color_card }};
+        --color-card-foreground: {{ settings.dark_color_card_foreground }};
+        --color-border: {{ settings.dark_color_border }};
+        --color-primary: {{ settings.dark_primary_color }};
+        --color-primary-foreground: {{ settings.dark_primary_foreground_color }};
+        --color-secondary: {{ settings.dark_secondary_color }};
+        --color-secondary-foreground: {{ settings.dark_secondary_foreground_color }};
+        --color-accent: {{ settings.dark_accent_color }};
+        --color-accent-foreground: {{ settings.dark_accent_foreground_color }};
+        --color-button: {{ settings.dark_button_background }};
+        --color-button-text: {{ settings.dark_button_text }};
+        --color-input: {{ settings.dark_input_background }};
+        --color-overlay: {{ settings.dark_overlay_color }};
+        --color-footer: {{ settings.dark_footer_background }};
+        --color-footer-foreground: {{ settings.dark_footer_foreground }};
+      }
+    </style>
+  </head>
+  <body class="template-{{ template.name | handle }}">
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+    {% section 'cart-drawer' %}
+
+    <main id="MainContent" class="site-main" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  </body>
+  </html>
+
+
+FILE: config/settings_schema.json
+
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Edelpop OS 2.0",
+    "theme_version": "1.0.0",
+    "theme_author": "Codex",
+    "theme_documentation_url": "https://shopify.dev/docs/storefronts/themes",
+    "theme_support_url": "https://shopify.dev"
+  },
+  {
+    "name": "Brand assets",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_inverse",
+        "label": "Logo for dark mode"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_display",
+        "label": "Display font",
+        "default": "assistant_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "assistant_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "assistant_n4"
+      }
+    ]
+  },
+  {
+    "name": "Light mode colors",
+    "settings": [
+      { "type": "color", "id": "color_background", "label": "Background", "default": "#fbf6ed" },
+      { "type": "color", "id": "color_foreground", "label": "Foreground", "default": "#201b1b" },
+      { "type": "color", "id": "color_muted", "label": "Muted", "default": "#f0e8dc" },
+      { "type": "color", "id": "color_muted_foreground", "label": "Muted foreground", "default": "#6f645d" },
+      { "type": "color", "id": "color_card", "label": "Card", "default": "#fffdf8" },
+      { "type": "color", "id": "color_card_foreground", "label": "Card foreground", "default": "#201b1b" },
+      { "type": "color", "id": "color_border", "label": "Border", "default": "#dccfbc" },
+      { "type": "color", "id": "primary_color", "label": "Primary", "default": "#214d3f" },
+      { "type": "color", "id": "primary_foreground_color", "label": "Primary foreground", "default": "#fff9ef" },
+      { "type": "color", "id": "secondary_color", "label": "Secondary", "default": "#f4b95f" },
+      { "type": "color", "id": "secondary_foreground_color", "label": "Secondary foreground", "default": "#2f2216" },
+      { "type": "color", "id": "accent_color", "label": "Accent", "default": "#d56b4d" },
+      { "type": "color", "id": "accent_foreground_color", "label": "Accent foreground", "default": "#fff8f1" },
+      { "type": "color", "id": "button_background", "label": "Button background", "default": "#214d3f" },
+      { "type": "color", "id": "button_text", "label": "Button text", "default": "#fff9ef" },
+      { "type": "color", "id": "input_background", "label": "Input background", "default": "#fffdf8" },
+      { "type": "text", "id": "overlay_color", "label": "Overlay", "default": "rgba(21, 16, 11, 0.55)" },
+      { "type": "color", "id": "footer_background", "label": "Footer background", "default": "#201b1b" },
+      { "type": "color", "id": "footer_foreground", "label": "Footer foreground", "default": "#fff7ef" }
+    ]
+  },
+  {
+    "name": "Dark mode colors",
+    "settings": [
+      { "type": "color", "id": "dark_color_background", "label": "Background", "default": "#161312" },
+      { "type": "color", "id": "dark_color_foreground", "label": "Foreground", "default": "#f7eee1" },
+      { "type": "color", "id": "dark_color_muted", "label": "Muted", "default": "#231f1c" },
+      { "type": "color", "id": "dark_color_muted_foreground", "label": "Muted foreground", "default": "#c9bdaf" },
+      { "type": "color", "id": "dark_color_card", "label": "Card", "default": "#1f1a18" },
+      { "type": "color", "id": "dark_color_card_foreground", "label": "Card foreground", "default": "#f7eee1" },
+      { "type": "color", "id": "dark_color_border", "label": "Border", "default": "#3d342f" },
+      { "type": "color", "id": "dark_primary_color", "label": "Primary", "default": "#92cf9e" },
+      { "type": "color", "id": "dark_primary_foreground_color", "label": "Primary foreground", "default": "#182017" },
+      { "type": "color", "id": "dark_secondary_color", "label": "Secondary", "default": "#ffd17c" },
+      { "type": "color", "id": "dark_secondary_foreground_color", "label": "Secondary foreground", "default": "#2d2115" },
+      { "type": "color", "id": "dark_accent_color", "label": "Accent", "default": "#ef8c6e" },
+      { "type": "color", "id": "dark_accent_foreground_color", "label": "Accent foreground", "default": "#2b1914" },
+      { "type": "color", "id": "dark_button_background", "label": "Button background", "default": "#92cf9e" },
+      { "type": "color", "id": "dark_button_text", "label": "Button text", "default": "#1a1d1a" },
+      { "type": "color", "id": "dark_input_background", "label": "Input background", "default": "#231f1c" },
+      { "type": "text", "id": "dark_overlay_color", "label": "Overlay", "default": "rgba(7, 7, 7, 0.62)" },
+      { "type": "color", "id": "dark_footer_background", "label": "Footer background", "default": "#0f0d0c" },
+      { "type": "color", "id": "dark_footer_foreground", "label": "Footer foreground", "default": "#f8efdf" }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "text",
+        "id": "header_tagline",
+        "label": "Header tagline",
+        "default": "Knusprig. Leicht. Edelpop."
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_sticky_header",
+        "label": "Enable sticky header",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "text",
+        "id": "footer_tagline",
+        "label": "Footer tagline",
+        "default": "Moderner Crunch für jeden Tag."
+      },
+      {
+        "type": "textarea",
+        "id": "footer_intro",
+        "label": "Footer intro",
+        "default": "Edelpop bringt gerösteten Makhana in einen warmen, modernen Snack-Moment."
+      },
+      {
+        "type": "text",
+        "id": "footer_email",
+        "label": "Contact email",
+        "default": "hello@edelpop.de"
+      },
+      {
+        "type": "text",
+        "id": "footer_instagram",
+        "label": "Instagram URL"
+      }
+    ]
+  }
+]
+
+
+FILE: assets/base.css
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.visually-hidden,
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  z-index: 90;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  background: var(--color-button);
+  color: var(--color-button-text);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.site-main {
+  min-height: 60vh;
+}
+
+.page-width {
+  width: min(100% - 2rem, var(--page-width));
+  margin: 0 auto;
+}
+
+.section {
+  position: relative;
+  padding: 2.5rem 0;
+}
+
+.section--flush-top {
+  padding-top: 0;
+}
+
+.section--flush-bottom {
+  padding-bottom: 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-card) 92%, transparent);
+  color: var(--color-muted-foreground);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.headline-display,
+h1,
+h2,
+h3,
+.heading {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.headline-display {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 12vw, 7rem);
+}
+
+h1 {
+  font-size: clamp(2.4rem, 10vw, 5.8rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 8vw, 4.2rem);
+}
+
+h3 {
+  font-size: clamp(1.35rem, 5vw, 2rem);
+}
+
+p {
+  margin: 0;
+  color: var(--color-muted-foreground);
+}
+
+.lead {
+  font-size: clamp(1rem, 4vw, 1.2rem);
+  line-height: 1.6;
+}
+
+.stack > * + * {
+  margin-top: 1rem;
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease, color 0.22s ease;
+  font-weight: 700;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn--primary {
+  background: var(--color-button);
+  color: var(--color-button-text);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--color-foreground);
+  border-color: var(--color-border);
+}
+
+.btn--ghost {
+  background: color-mix(in srgb, var(--color-muted) 50%, transparent);
+  color: var(--color-foreground);
+}
+
+.card {
+  background: var(--color-card);
+  color: var(--color-card-foreground);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.surface-muted {
+  background: color-mix(in srgb, var(--color-muted) 74%, var(--color-card));
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-secondary) 22%, var(--color-card));
+  color: var(--color-foreground);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.media-shell {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+.media-shell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.announcement-bar {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  padding: 0.6rem 0;
+  font-size: 0.85rem;
+}
+
+.announcement-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  backdrop-filter: blur(18px);
+  background: color-mix(in srgb, var(--color-background) 82%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+}
+
+.site-header__inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 4.5rem;
+}
+
+.header-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.06em;
+}
+
+.header-logo img {
+  max-height: 2rem;
+  width: auto;
+}
+
+.header-actions,
+.header-utility {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-card) 88%, transparent);
+  color: var(--color-foreground);
+}
+
+.desktop-nav {
+  display: none;
+}
+
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  display: none;
+}
+
+.drawer.is-open {
+  display: block;
+}
+
+.drawer__scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--color-overlay);
+}
+
+.drawer__panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: min(92vw, 26rem);
+  padding: 1.1rem;
+  background: var(--color-card);
+  color: var(--color-card-foreground);
+  overflow-y: auto;
+  box-shadow: var(--shadow-lift);
+}
+
+.drawer--right .drawer__panel {
+  right: 0;
+}
+
+.drawer--left .drawer__panel {
+  left: 0;
+}
+
+.drawer__header,
+.drawer__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.drawer__body {
+  padding: 1rem 0;
+}
+
+.mobile-nav {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.mobile-nav__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-muted) 72%, var(--color-card));
+  border: 1px solid var(--color-border);
+  font-weight: 700;
+}
+
+.hero {
+  overflow: hidden;
+}
+
+.hero__shell {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem 1.25rem 0;
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--color-secondary) 34%, transparent), transparent 32%),
+    radial-gradient(circle at bottom right, color-mix(in srgb, var(--color-accent) 35%, transparent), transparent 24%),
+    linear-gradient(160deg, color-mix(in srgb, var(--color-card) 84%, var(--color-muted)) 0%, color-mix(in srgb, var(--color-card) 55%, var(--color-background)) 100%);
+}
+
+.hero__copy {
+  padding-top: 0.75rem;
+}
+
+.hero__chips {
+  gap: 0.5rem;
+}
+
+.hero__visual {
+  position: relative;
+  min-height: 22rem;
+  display: grid;
+  place-items: end center;
+}
+
+.hero__orb,
+.hero__grid {
+  position: absolute;
+  inset: auto;
+  pointer-events: none;
+}
+
+.hero__orb {
+  width: 14rem;
+  height: 14rem;
+  right: -2rem;
+  top: 1rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-secondary) 36%, transparent);
+  filter: blur(14px);
+}
+
+.hero__grid {
+  left: -2rem;
+  bottom: 1rem;
+  width: 10rem;
+  height: 10rem;
+  background-image: radial-gradient(var(--color-border) 1px, transparent 1px);
+  background-size: 14px 14px;
+  opacity: 0.45;
+}
+
+.hero-packshots {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  z-index: 1;
+}
+
+.hero-pack {
+  width: clamp(7rem, 29vw, 11rem);
+  padding: 0.55rem;
+  border-radius: 1.35rem;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-card) 84%, transparent);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-pack:nth-child(2) {
+  transform: translateY(-1rem) rotate(-4deg);
+}
+
+.hero-pack:nth-child(1) {
+  transform: rotate(-7deg);
+}
+
+.hero-pack:nth-child(3) {
+  transform: rotate(7deg);
+}
+
+.trust-strip__grid,
+.benefits-grid,
+.retailer-strip__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.trust-item,
+.benefit-card,
+.retailer-card {
+  padding: 1rem;
+}
+
+.category-grid,
+.gallery-grid,
+.blog-grid,
+.footer-grid {
+  grid-template-columns: 1fr;
+}
+
+.category-card,
+.product-card,
+.editorial-card,
+.testimonial-card {
+  overflow: hidden;
+}
+
+.category-card__content,
+.product-card__content,
+.editorial-card__content,
+.testimonial-card__content {
+  padding: 1rem;
+}
+
+.statement,
+.featured-flavor,
+.bundle-spotlight,
+.newsletter-cta,
+.page-hero,
+.collection-hero,
+.search-hero {
+  overflow: hidden;
+}
+
+.statement__shell,
+.featured-flavor__shell,
+.bundle-spotlight__shell,
+.newsletter-cta__shell,
+.page-hero__shell,
+.collection-hero__shell,
+.search-hero__shell {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.product-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.product-card__media {
+  aspect-ratio: 0.84;
+  background: color-mix(in srgb, var(--color-muted) 74%, var(--color-card));
+}
+
+.price {
+  font-weight: 800;
+  color: var(--color-foreground);
+}
+
+.product-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.slider {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(85%, 1fr);
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.2rem;
+}
+
+.slider > * {
+  scroll-snap-align: start;
+}
+
+.gallery-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gallery-grid > :first-child {
+  grid-column: span 2;
+}
+
+.newsletter-form,
+.contact-form,
+.search-form,
+.localization-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.field {
+  width: 100%;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.9rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-input);
+  color: var(--color-foreground);
+}
+
+.field textarea {
+  min-height: 8rem;
+  border-radius: var(--radius-md);
+}
+
+.footer {
+  background: var(--color-footer);
+  color: var(--color-footer-foreground);
+}
+
+.footer a,
+.footer p {
+  color: inherit;
+}
+
+.footer__shell {
+  padding: 2.5rem 0;
+}
+
+.footer-grid {
+  gap: 1.5rem;
+}
+
+.footer-group {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 11vw, 5rem);
+  line-height: 0.9;
+}
+
+.accordion {
+  border-top: 1px solid var(--color-border);
+}
+
+.accordion__item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.accordion__button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  text-align: left;
+  font-weight: 700;
+}
+
+.accordion__content {
+  display: none;
+  padding: 0 0 1rem;
+}
+
+.accordion__item.is-open .accordion__content {
+  display: block;
+}
+
+.product-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.product-gallery {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 86%;
+  overflow-x: auto;
+  gap: 0.75rem;
+  scroll-snap-type: x mandatory;
+}
+
+.product-gallery__item {
+  scroll-snap-align: start;
+  aspect-ratio: 0.9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-muted) 72%, var(--color-card));
+}
+
+.product-buybox {
+  display: grid;
+  gap: 1rem;
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.product-form__actions {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  gap: 0.75rem;
+}
+
+.qty-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--color-card);
+}
+
+.qty-selector button,
+.qty-selector input {
+  border: 0;
+  background: transparent;
+  text-align: center;
+  min-height: 3rem;
+  color: inherit;
+}
+
+.sticky-atc {
+  position: sticky;
+  bottom: 0.6rem;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.8rem 0.9rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-card) 94%, transparent);
+  box-shadow: var(--shadow-soft);
+}
+
+.collection-layout {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.facets {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cart-drawer-items,
+.cart-page__items {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cart-line {
+  display: grid;
+  grid-template-columns: 4.75rem 1fr;
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.cart-line__media {
+  aspect-ratio: 0.85;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.kicker {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted-foreground);
+}
+
+@media (min-width: 750px) {
+  .section {
+    padding: 4.5rem 0;
+  }
+
+  .site-header__inner {
+    grid-template-columns: auto 1fr auto auto;
+  }
+
+  .desktop-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    justify-self: center;
+  }
+
+  .desktop-nav a {
+    padding: 0.45rem 0;
+    font-weight: 700;
+  }
+
+  .header-menu-toggle {
+    display: none;
+  }
+
+  .hero__shell,
+  .statement__shell,
+  .featured-flavor__shell,
+  .bundle-spotlight__shell,
+  .newsletter-cta__shell,
+  .collection-hero__shell,
+  .page-hero__shell,
+  .search-hero__shell,
+  .product-page,
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+  }
+
+  .hero__shell {
+    padding: 2rem 2rem 0;
+  }
+
+  .hero__visual {
+    min-height: 32rem;
+  }
+
+  .trust-strip__grid,
+  .benefits-grid,
+  .retailer-strip__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .category-grid,
+  .blog-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .gallery-grid > :first-child,
+  .gallery-grid > :last-child {
+    grid-column: span 2;
+  }
+
+  .slider {
+    grid-auto-columns: minmax(32%, 1fr);
+  }
+
+  .collection-layout {
+    grid-template-columns: 17rem 1fr;
+    align-items: start;
+  }
+
+  .product-gallery {
+    grid-auto-flow: row;
+    grid-auto-columns: unset;
+    overflow: visible;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sticky-atc {
+    position: static;
+    display: none;
+  }
+}
+
+
+FILE: assets/theme.js
+
+(() => {
+  const storageKey = 'edelpop-theme';
+  const root = document.documentElement;
+
+  const setTheme = (theme) => {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem(storageKey, theme);
+    document.querySelectorAll('[data-theme-toggle-label]').forEach((node) => {
+      node.textContent = theme === 'dark' ? node.dataset.darkLabel : node.dataset.lightLabel;
+    });
+  };
+
+  document.addEventListener('click', (event) => {
+    const toggle = event.target.closest('[data-theme-toggle]');
+    if (toggle) {
+      const nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      setTheme(nextTheme);
+    }
+
+    const openTrigger = event.target.closest('[data-open-drawer]');
+    if (openTrigger) {
+      const id = openTrigger.getAttribute('data-open-drawer');
+      const drawer = document.getElementById(id);
+      if (drawer) {
+        drawer.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+      }
+    }
+
+    const closeTrigger = event.target.closest('[data-close-drawer], .drawer__scrim');
+    if (closeTrigger) {
+      const drawer = closeTrigger.closest('.drawer');
+      if (drawer) {
+        drawer.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    const accordionButton = event.target.closest('[data-accordion-button]');
+    if (accordionButton) {
+      const item = accordionButton.closest('.accordion__item');
+      const isOpen = item.classList.contains('is-open');
+      item.classList.toggle('is-open', !isOpen);
+      accordionButton.setAttribute('aria-expanded', String(!isOpen));
+    }
+
+    const qtyButton = event.target.closest('[data-qty-button]');
+    if (qtyButton) {
+      const field = qtyButton.closest('.qty-selector')?.querySelector('input');
+      if (!field) return;
+      const delta = Number(qtyButton.dataset.qtyButton);
+      const current = Number(field.value || 1);
+      field.value = Math.max(1, current + delta);
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    document.querySelectorAll('.drawer.is-open').forEach((drawer) => {
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+    });
+  });
+
+  document.querySelectorAll('[data-slider]').forEach((slider) => {
+    const prev = slider.parentElement.querySelector('[data-slider-prev]');
+    const next = slider.parentElement.querySelector('[data-slider-next]');
+    const distance = () => Math.max(slider.clientWidth * 0.88, 240);
+    prev?.addEventListener('click', () => slider.scrollBy({ left: -distance(), behavior: 'smooth' }));
+    next?.addEventListener('click', () => slider.scrollBy({ left: distance(), behavior: 'smooth' }));
+  });
+
+  document.querySelectorAll('form[data-localization-form]').forEach((form) => {
+    const select = form.querySelector('select');
+    select?.addEventListener('change', () => form.submit());
+  });
+
+  document.querySelectorAll('.product-form').forEach((form) => {
+    const stickyButton = document.querySelector('[data-sticky-atc]');
+    if (!stickyButton) return;
+    stickyButton.addEventListener('click', () => form.requestSubmit());
+  });
+})();
+
+
+FILE: locales/de.default.json
+
+{
+  "accessibility": {
+    "skip_to_content": "Zum Inhalt springen",
+    "close": "Schließen",
+    "menu": "Menü öffnen",
+    "cart": "Warenkorb",
+    "search": "Suche",
+    "theme_toggle": "Farbschema wechseln"
+  },
+  "general": {
+    "pagination": {
+      "page": "Seite {{ number }}"
+    },
+    "buttons": {
+      "shop_now": "Jetzt entdecken",
+      "learn_more": "Mehr erfahren",
+      "view_all": "Alles ansehen",
+      "add_to_cart": "In den Warenkorb",
+      "quick_add": "Schnell hinzufügen",
+      "read_more": "Weiterlesen",
+      "contact_us": "Kontakt aufnehmen",
+      "apply": "Anwenden"
+    },
+    "labels": {
+      "new": "Neu",
+      "bestseller": "Bestseller",
+      "bundle": "Bundle",
+      "save": "Spare",
+      "from": "Ab"
+    },
+    "navigation": {
+      "shop": "Shop",
+      "bundles": "Bundles",
+      "about": "Über Edelpop",
+      "journal": "Journal",
+      "wholesale": "Wholesale",
+      "faq": "FAQ",
+      "search_placeholder": "Produkte, Seiten oder Journal durchsuchen"
+    },
+    "newsletter": {
+      "title": "Bleib im Snack-Moment",
+      "subtitle": "Neue Sorten, Launch-Updates und Retail-News zuerst erfahren.",
+      "email": "E-Mail-Adresse",
+      "submit": "Eintragen"
+    },
+    "language": {
+      "label": "Sprache",
+      "german": "Deutsch",
+      "english": "English"
+    },
+    "theme": {
+      "light": "Hell",
+      "dark": "Dunkel"
+    },
+    "empty": {
+      "cart": "Dein Warenkorb ist noch leer.",
+      "search": "Keine Treffer gefunden.",
+      "collection": "Hier kommt gleich etwas Knuspriges.",
+      "blog": "Beiträge folgen in Kürze."
+    }
+  },
+  "product": {
+    "descriptor": "Premium gerösteter Makhana-Snack",
+    "quantity": "Menge",
+    "flavor_notes": "Geschmacksprofil",
+    "texture_notes": "Textur",
+    "ingredients": "Zutaten",
+    "shipping": "Versand & Retouren",
+    "related": "Das passt dazu",
+    "nutrition": "Nährwerte",
+    "benefits": {
+      "roasted": "Geröstet statt frittiert",
+      "light": "Leicht & knusprig",
+      "routine": "Gemacht für moderne Snack-Routinen"
+    }
+  },
+  "cart": {
+    "title": "Warenkorb",
+    "subtotal": "Zwischensumme",
+    "checkout": "Zur Kasse",
+    "remove": "Entfernen",
+    "view_cart": "Warenkorb ansehen",
+    "continue_shopping": "Weiter shoppen"
+  },
+  "sections": {
+    "hero": {
+      "eyebrow": "Premium geröstete Foxnuts",
+      "title": "Knusprig. Leicht. Edelpop.",
+      "text": "Drei Sorten, null Langeweile. Edelpop bringt gerösteten Makhana in einen modernen Snack-Moment mit Haltung.",
+      "primary_cta": "Shop entdecken",
+      "secondary_cta": "Warum Edelpop?",
+      "chip_1": "Geröstet statt frittiert",
+      "chip_2": "Leicht & knusprig",
+      "chip_3": "Bald im Handel"
+    },
+    "trust": {
+      "title_1": "Geröstet statt frittiert",
+      "title_2": "Leicht & knusprig",
+      "title_3": "Premium Snack-Moment",
+      "title_4": "Für jeden Tag gemacht"
+    },
+    "footer": {
+      "tagline": "Moderner Crunch für jeden Tag.",
+      "contact": "Kontakt",
+      "follow": "Folgen",
+      "shop": "Shop",
+      "help": "Hilfe",
+      "legal": "Rechtliches"
+    }
+  }
+}
+
+
+FILE: locales/en.default.json
+
+{
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "close": "Close",
+    "menu": "Open menu",
+    "cart": "Cart",
+    "search": "Search",
+    "theme_toggle": "Toggle color scheme"
+  },
+  "general": {
+    "pagination": {
+      "page": "Page {{ number }}"
+    },
+    "buttons": {
+      "shop_now": "Shop now",
+      "learn_more": "Learn more",
+      "view_all": "View all",
+      "add_to_cart": "Add to cart",
+      "quick_add": "Quick add",
+      "read_more": "Read more",
+      "contact_us": "Contact us",
+      "apply": "Apply"
+    },
+    "labels": {
+      "new": "New",
+      "bestseller": "Bestseller",
+      "bundle": "Bundle",
+      "save": "Save",
+      "from": "From"
+    },
+    "navigation": {
+      "shop": "Shop",
+      "bundles": "Bundles",
+      "about": "About Edelpop",
+      "journal": "Journal",
+      "wholesale": "Wholesale",
+      "faq": "FAQ",
+      "search_placeholder": "Search products, pages or journal"
+    },
+    "newsletter": {
+      "title": "Stay in the snack moment",
+      "subtitle": "Be first to hear about new flavours, launch updates and retail news.",
+      "email": "Email address",
+      "submit": "Sign up"
+    },
+    "language": {
+      "label": "Language",
+      "german": "Deutsch",
+      "english": "English"
+    },
+    "theme": {
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "empty": {
+      "cart": "Your cart is still empty.",
+      "search": "No results found.",
+      "collection": "Something crunchy will land here soon.",
+      "blog": "Stories are coming soon."
+    }
+  },
+  "product": {
+    "descriptor": "Premium roasted makhana snack",
+    "quantity": "Quantity",
+    "flavor_notes": "Flavour notes",
+    "texture_notes": "Texture",
+    "ingredients": "Ingredients",
+    "shipping": "Shipping & returns",
+    "related": "You may also like",
+    "nutrition": "Nutrition",
+    "benefits": {
+      "roasted": "Roasted instead of fried",
+      "light": "Light and crunchy",
+      "routine": "Built for modern snack routines"
+    }
+  },
+  "cart": {
+    "title": "Cart",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "view_cart": "View cart",
+    "continue_shopping": "Continue shopping"
+  },
+  "sections": {
+    "hero": {
+      "eyebrow": "Premium roasted foxnuts",
+      "title": "Crunch, the Edelpop way.",
+      "text": "Three flavours, zero boredom. Edelpop turns roasted makhana into a modern snack ritual with premium energy.",
+      "primary_cta": "Shop the range",
+      "secondary_cta": "Why Edelpop?",
+      "chip_1": "Roasted, not fried",
+      "chip_2": "Light and crunchy",
+      "chip_3": "Retail launch soon"
+    },
+    "trust": {
+      "title_1": "Roasted not fried",
+      "title_2": "Light and crunchy",
+      "title_3": "Premium snack moment",
+      "title_4": "Made for every day"
+    },
+    "footer": {
+      "tagline": "Modern crunch for every day.",
+      "contact": "Contact",
+      "follow": "Follow",
+      "shop": "Shop",
+      "help": "Help",
+      "legal": "Legal"
+    }
+  }
+}
+
+
+FILE: sections/header.liquid
+
+<header class="site-header" role="banner">
+  <div class="page-width site-header__inner">
+    <button class="icon-button header-menu-toggle" type="button" data-open-drawer="menu-drawer" aria-label="{{ 'accessibility.menu' | t }}">
+      {% render 'icon', icon: 'menu' %}
+    </button>
+
+    <a class="header-logo" href="{{ routes.root_url }}">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 240 | image_tag: loading: 'eager', widths: '120,180,240', alt: shop.name }}
+      {%- else -%}
+        <span>{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    <nav class="desktop-nav" aria-label="{{ 'general.navigation.shop' | t }}">
+      <a href="{{ routes.all_products_collection_url }}">{{ 'general.navigation.shop' | t }}</a>
+      <a href="/pages/bundles">{{ 'general.navigation.bundles' | t }}</a>
+      <a href="/pages/about">{{ 'general.navigation.about' | t }}</a>
+      <a href="{{ blogs.news.url | default: '/blogs/news' }}">{{ 'general.navigation.journal' | t }}</a>
+      <a href="/pages/wholesale">{{ 'general.navigation.wholesale' | t }}</a>
+      <a href="/pages/faq">{{ 'general.navigation.faq' | t }}</a>
+    </nav>
+
+    <div class="header-utility">
+      {% form 'localization', class: 'localization-form', data-localization-form: true %}
+          <label class="visually-hidden" for="HeaderLanguage">{{ 'general.language.label' | t }}</label>
+          <select id="HeaderLanguage" name="locale_code" aria-label="{{ 'general.language.label' | t }}">
+            {%- for locale in localization.available_languages -%}
+              <option value="{{ locale.iso_code }}" {% if locale.iso_code == localization.language.iso_code %}selected{% endif %}>{{ locale.endonym_name }}</option>
+            {%- endfor -%}
+          </select>
+      {% endform %}
+      <button class="icon-button" type="button" data-theme-toggle aria-label="{{ 'accessibility.theme_toggle' | t }}">
+        {% render 'icon', icon: 'sun-moon' %}
+      </button>
+      <a class="icon-button" href="{{ routes.search_url }}" aria-label="{{ 'accessibility.search' | t }}">
+        {% render 'icon', icon: 'search' %}
+      </a>
+      <button class="icon-button" type="button" data-open-drawer="cart-drawer" aria-label="{{ 'accessibility.cart' | t }}">
+        {% render 'icon', icon: 'cart' %}
+      </button>
+    </div>
+  </div>
+
+  <div id="menu-drawer" class="drawer drawer--left" aria-hidden="true">
+    <div class="drawer__scrim"></div>
+    <div class="drawer__panel">
+      <div class="drawer__header">
+        <strong>{{ shop.name }}</strong>
+        <button class="icon-button" type="button" data-close-drawer aria-label="{{ 'accessibility.close' | t }}">
+          {% render 'icon', icon: 'close' %}
+        </button>
+      </div>
+      <div class="drawer__body">
+        <nav class="mobile-nav">
+          <a class="mobile-nav__link" href="{{ routes.all_products_collection_url }}">{{ 'general.navigation.shop' | t }} {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/collections/all?filter.v.option.flavor=Salt%20%26%20Pepper">Salt &amp; Pepper {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/collections/all?filter.v.option.flavor=Cheese%20%26%20Herbs">Cheese &amp; Herbs {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/collections/all?filter.v.option.flavor=Caramel">Caramel {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/pages/bundles">{{ 'general.navigation.bundles' | t }} {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/pages/about">{{ 'general.navigation.about' | t }} {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/pages/why-edelpop">Why Edelpop {% render 'icon', icon: 'arrow-right' %}</a>
+          <a class="mobile-nav__link" href="/pages/wholesale">{{ 'general.navigation.wholesale' | t }} {% render 'icon', icon: 'arrow-right' %}</a>
+        </nav>
+      </div>
+      <div class="drawer__footer stack">
+        <p>{{ settings.header_tagline }}</p>
+        <div class="cluster">
+          <button class="btn btn--secondary" type="button" data-theme-toggle>
+            <span data-theme-toggle-label data-light-label="{{ 'general.theme.dark' | t }}" data-dark-label="{{ 'general.theme.light' | t }}">{{ 'general.theme.dark' | t }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": []
+}
+{% endschema %}
+
+
+FILE: sections/footer.liquid
+
+<footer class="footer" role="contentinfo">
+  <div class="page-width footer__shell">
+    <div class="footer-grid grid">
+      <div class="footer-group">
+        <div class="footer-logo">
+          {%- if settings.logo_inverse != blank -%}
+            {{ settings.logo_inverse | image_url: width: 360 | image_tag: loading: 'lazy', widths: '180,240,360', alt: shop.name }}
+          {%- elsif settings.logo != blank -%}
+            {{ settings.logo | image_url: width: 360 | image_tag: loading: 'lazy', widths: '180,240,360', alt: shop.name }}
+          {%- else -%}
+            {{ shop.name }}
+          {%- endif -%}
+        </div>
+        <p class="lead">{{ settings.footer_intro }}</p>
+        <span class="eyebrow">{{ settings.footer_tagline }}</span>
+      </div>
+
+      <div class="footer-group">
+        <strong>{{ 'sections.footer.shop' | t }}</strong>
+        <a href="{{ routes.all_products_collection_url }}">{{ 'general.navigation.shop' | t }}</a>
+        <a href="/pages/bundles">{{ 'general.navigation.bundles' | t }}</a>
+        <a href="/pages/stockists">Stockists</a>
+        <a href="/pages/why-edelpop">Why Edelpop</a>
+      </div>
+
+      <div class="footer-group">
+        <strong>{{ 'sections.footer.help' | t }}</strong>
+        <a href="/pages/faq">{{ 'general.navigation.faq' | t }}</a>
+        <a href="/pages/contact">Contact</a>
+        <a href="/search">{{ 'accessibility.search' | t }}</a>
+        <a href="/blogs/news">{{ 'general.navigation.journal' | t }}</a>
+      </div>
+
+      <div class="footer-group">
+        <strong>{{ 'sections.footer.contact' | t }}</strong>
+        <a href="mailto:{{ settings.footer_email }}">{{ settings.footer_email }}</a>
+        {%- if settings.footer_instagram != blank -%}
+          <a href="{{ settings.footer_instagram }}" target="_blank" rel="noopener">Instagram</a>
+        {%- endif -%}
+        {% form 'localization', class: 'localization-form', data-localization-form: true %}
+            <label class="visually-hidden" for="FooterLanguage">{{ 'general.language.label' | t }}</label>
+            <select id="FooterLanguage" name="locale_code" aria-label="{{ 'general.language.label' | t }}">
+              {%- for locale in localization.available_languages -%}
+                <option value="{{ locale.iso_code }}" {% if locale.iso_code == localization.language.iso_code %}selected{% endif %}>{{ locale.endonym_name }}</option>
+              {%- endfor -%}
+            </select>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": []
+}
+{% endschema %}
+
+
+FILE: sections/announcement-bar.liquid
+
+{%- if section.settings.show_announcement -%}
+  <section class="announcement-bar" role="region" aria-label="{{ section.settings.text | escape }}">
+    <div class="page-width announcement-bar__inner">
+      <span>{{ section.settings.text }}</span>
+      {%- if section.settings.link != blank and section.settings.link_label != blank -%}
+        <a href="{{ section.settings.link }}"><strong>{{ section.settings.link_label }}</strong></a>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    { "type": "checkbox", "id": "show_announcement", "label": "Show announcement", "default": true },
+    { "type": "text", "id": "text", "label": "Text", "default": "Launch-Update: Edelpop kommt bald. Wholesale-Anfragen sind jetzt offen." },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Mehr erfahren" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/hero-edelpop.liquid
+
+<section class="section hero">
+  <div class="page-width">
+    <div class="hero__shell card">
+      <div class="hero__copy stack">
+        <span class="eyebrow">{{ section.settings.eyebrow | default: 'sections.hero.eyebrow' | t }}</span>
+        <h1 class="headline-display">{{ section.settings.heading | default: 'sections.hero.title' | t }}</h1>
+        <p class="lead">{{ section.settings.text | default: 'sections.hero.text' | t }}</p>
+        <div class="cluster hero__chips">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'chip' -%}
+              <span class="badge" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="cluster">
+          <a class="btn btn--primary" href="{{ section.settings.primary_link | default: routes.all_products_collection_url }}">{{ section.settings.primary_label | default: 'sections.hero.primary_cta' | t }}</a>
+          <a class="btn btn--secondary" href="{{ section.settings.secondary_link | default: '/pages/why-edelpop' }}">{{ section.settings.secondary_label | default: 'sections.hero.secondary_cta' | t }}</a>
+        </div>
+      </div>
+
+      <div class="hero__visual">
+        <div class="hero__orb"></div>
+        <div class="hero__grid"></div>
+        <div class="hero-packshots">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'packshot' -%}
+              <div class="hero-pack" {{ block.shopify_attributes }}>
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '220,320,480,720', alt: block.settings.alt_text | default: block.settings.title }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Edelpop",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Premium geröstete Foxnuts" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Knusprig. Leicht. Edelpop." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Drei Sorten, null Langeweile. Edelpop bringt gerösteten Makhana in einen modernen Snack-Moment mit Haltung." },
+    { "type": "text", "id": "primary_label", "label": "Primary CTA label", "default": "Shop entdecken" },
+    { "type": "url", "id": "primary_link", "label": "Primary CTA link" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary CTA label", "default": "Warum Edelpop?" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary CTA link" }
+  ],
+  "blocks": [
+    {
+      "type": "chip",
+      "name": "Badge chip",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Geröstet statt frittiert" }
+      ]
+    },
+    {
+      "type": "packshot",
+      "name": "Packshot",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Flavor title", "default": "Salt & Pepper" },
+        { "type": "text", "id": "alt_text", "label": "Alt text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Edelpop",
+      "blocks": [
+        { "type": "chip", "settings": { "text": "Geröstet statt frittiert" } },
+        { "type": "chip", "settings": { "text": "Leicht & knusprig" } },
+        { "type": "chip", "settings": { "text": "Bald im Handel" } },
+        { "type": "packshot", "settings": { "title": "Salt & Pepper" } },
+        { "type": "packshot", "settings": { "title": "Cheese & Herbs" } },
+        { "type": "packshot", "settings": { "title": "Caramel" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/trust-strip.liquid
+
+<section class="section trust-strip section--flush-top">
+  <div class="page-width">
+    <div class="trust-strip__grid grid">
+      {%- for block in section.blocks -%}
+        <div class="trust-item card" {{ block.shopify_attributes }}>
+          <div class="stack">
+            <span class="kicker">{{ block.settings.kicker }}</span>
+            <strong>{{ block.settings.title }}</strong>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust strip",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker", "default": "Warum Edelpop" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Geröstet statt frittiert" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust strip",
+      "blocks": [
+        { "type": "item", "settings": { "kicker": "Texture", "title": "Leicht & knusprig" } },
+        { "type": "item", "settings": { "kicker": "Process", "title": "Geröstet statt frittiert" } },
+        { "type": "item", "settings": { "kicker": "Moment", "title": "Premium Snack-Moment" } },
+        { "type": "item", "settings": { "kicker": "Future", "title": "Bald im Handel" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/category-cards.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="stack">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="category-grid grid">
+      {%- for block in section.blocks -%}
+        <a class="category-card card" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+          <div class="media-shell" style="aspect-ratio: 1 / 1;">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '320,480,640,900', alt: block.settings.title }}
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+          <div class="category-card__content stack">
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category cards",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Schnell entdecken" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shoppen nach Moment, Bundle oder Geschmack." }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Category card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Alle Produkte" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Vom Einstieg bis zum Lieblingssnack." },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category cards",
+      "blocks": [
+        { "type": "card", "settings": { "title": "Alle Produkte", "text": "Die gesamte Range auf einen Blick.", "link": "/collections/all" } },
+        { "type": "card", "settings": { "title": "Bestseller", "text": "Die Sorten mit dem schnellsten Griff.", "link": "/collections/all" } },
+        { "type": "card", "settings": { "title": "Probierpakete", "text": "Gemischt, kuratiert, verschenkbar.", "link": "/pages/bundles" } },
+        { "type": "card", "settings": { "title": "Nach Geschmack", "text": "Salt & Pepper, Cheese & Herbs oder Caramel.", "link": "/collections/all" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/brand-statement.liquid
+
+<section class="section statement">
+  <div class="page-width">
+    <div class="statement__shell card">
+      <div class="stack">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+        <p class="lead">{{ section.settings.text }}</p>
+        <a class="btn btn--primary" href="{{ section.settings.link }}">{{ section.settings.link_label }}</a>
+      </div>
+      <div class="media-shell" style="aspect-ratio: 0.95 / 1;">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '480,720,960,1200', alt: section.settings.heading }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand statement",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Edelpop Gefühl" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Ein Snack, der nach Alltag aussieht. Nur besser." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Edelpop verbindet leichten Crunch mit modernem Design, warmem Markencharakter und einer Merchandising-Sprache, die sich auf mobilem Screen genauso stark anfühlt wie im Regal." },
+    { "type": "text", "id": "link_label", "label": "CTA label", "default": "Mehr zur Marke" },
+    { "type": "url", "id": "link", "label": "CTA link" },
+    { "type": "image_picker", "id": "image", "label": "Image" }
+  ],
+  "presets": [
+    { "name": "Brand statement" }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/benefits-icons.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="stack">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="benefits-grid grid">
+      {%- for block in section.blocks -%}
+        <div class="benefit-card card" {{ block.shopify_attributes }}>
+          <div class="stack">
+            <span class="badge">{{ block.settings.badge }}</span>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefits icons",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Warum es funktioniert" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Premium Snack-Routine, klar erzählt." }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "badge", "label": "Badge", "default": "Benefit" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Geröstet statt frittiert" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Leichter Crunch mit einem moderneren Gefühl als klassische Snack-Alternativen." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefits icons",
+      "blocks": [
+        { "type": "benefit", "settings": { "badge": "Process", "title": "Geröstet statt frittiert", "text": "Für einen cleaneren, moderneren Snack-Moment." } },
+        { "type": "benefit", "settings": { "badge": "Texture", "title": "Leicht & knusprig", "text": "Angenehmer Crunch, der nicht schwer wirkt." } },
+        { "type": "benefit", "settings": { "badge": "Routine", "title": "Premium für jeden Tag", "text": "Büro, Sofa, Zug oder Teilen mit Freunden." } },
+        { "type": "benefit", "settings": { "badge": "Range", "title": "Drei Sorten, null Langeweile", "text": "Würzig, cremig oder süß, aber immer Edelpop." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/featured-flavor.liquid
+
+<section class="section featured-flavor">
+  <div class="page-width">
+    <div class="featured-flavor__shell card">
+      <div class="stack">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+        <p class="lead">{{ section.settings.text }}</p>
+        <div class="pill-row">
+          <span class="badge">{{ section.settings.note_1 }}</span>
+          <span class="badge">{{ section.settings.note_2 }}</span>
+          <span class="badge">{{ section.settings.note_3 }}</span>
+        </div>
+        <a class="btn btn--primary" href="{{ section.settings.link }}">{{ section.settings.link_label }}</a>
+      </div>
+      <div class="media-shell" style="aspect-ratio: 1 / 1;">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '480,720,960,1200', alt: section.settings.heading }}
+        {%- else -%}
+          {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured flavor",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Signature Story" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Caramel für den Abend. Salt & Pepper fürs Immer-wieder." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Der Crunch erinnert an Popcorn, das Erlebnis wirkt erwachsener. Edelpop macht Makhana begehrenswert, weil Geschmack, Textur und Markenmoment zusammenpassen." },
+    { "type": "text", "id": "note_1", "label": "Note 1", "default": "Light crunch" },
+    { "type": "text", "id": "note_2", "label": "Note 2", "default": "Warm finish" },
+    { "type": "text", "id": "note_3", "label": "Note 3", "default": "Modern feel" },
+    { "type": "text", "id": "link_label", "label": "CTA label", "default": "Zu den Sorten" },
+    { "type": "url", "id": "link", "label": "CTA link" },
+    { "type": "image_picker", "id": "image", "label": "Image" }
+  ],
+  "presets": [
+    { "name": "Featured flavor" }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/bestsellers-grid.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="cluster" style="justify-content: space-between; align-items: end;">
+      <div class="stack">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+      <a class="btn btn--secondary" href="{{ section.settings.link }}">{{ section.settings.link_label }}</a>
+    </div>
+    <div class="product-grid grid">
+      {%- assign featured_collection = section.settings.collection -%}
+      {%- if featured_collection != blank and featured_collection.products_count > 0 -%}
+        {%- for product in featured_collection.products limit: section.settings.products_to_show -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <article class="product-card card">
+            <div class="product-card__media media-shell">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+            <div class="product-card__content stack">
+              <h3>Flavor {{ i }}</h3>
+              <p>{{ 'product.descriptor' | t }}</p>
+              <div class="product-card__meta"><span class="price">€4,90</span><span class="badge">Soon</span></div>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bestsellers grid",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Bestseller" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Unsere Sorten für den ersten Griff." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Alle Produkte" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "presets": [
+    { "name": "Bestsellers grid" }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/bundle-spotlight.liquid
+
+<section class="section bundle-spotlight">
+  <div class="page-width">
+    <div class="bundle-spotlight__shell card">
+      <div class="stack">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+        <p class="lead">{{ section.settings.text }}</p>
+        <div class="pill-row">
+          <span class="badge">{{ section.settings.badge_1 }}</span>
+          <span class="badge">{{ section.settings.badge_2 }}</span>
+          <span class="badge">{{ section.settings.badge_3 }}</span>
+        </div>
+        <div class="cluster">
+          <a class="btn btn--primary" href="{{ section.settings.link }}">{{ section.settings.link_label }}</a>
+          <span class="badge">{{ section.settings.savings_badge }}</span>
+        </div>
+      </div>
+      <div class="media-shell" style="aspect-ratio: 1 / 1;">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '480,720,960,1200', alt: section.settings.heading }}
+        {%- else -%}
+          {{ 'product-3' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bundle spotlight",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Probierpaket" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Die Range im ersten Pack. Kuratiert für Neugier und Wiederkauf." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Ein Bundle für alle, die Edelpop direkt vollständig verstehen wollen: drei Sorten, klare Story, ideal zum Teilen, Schenken oder Probieren." },
+    { "type": "text", "id": "badge_1", "label": "Badge 1", "default": "3 Sorten" },
+    { "type": "text", "id": "badge_2", "label": "Badge 2", "default": "Giftable" },
+    { "type": "text", "id": "badge_3", "label": "Badge 3", "default": "Starter Set" },
+    { "type": "text", "id": "savings_badge", "label": "Savings badge", "default": "Spare 10%" },
+    { "type": "text", "id": "link_label", "label": "CTA label", "default": "Bundles ansehen" },
+    { "type": "url", "id": "link", "label": "CTA link" },
+    { "type": "image_picker", "id": "image", "label": "Image" }
+  ],
+  "presets": [
+    { "name": "Bundle spotlight" }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/testimonials-slider.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="cluster" style="justify-content: space-between; align-items: end;">
+      <div class="stack">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+      <div class="cluster">
+        <button class="icon-button" type="button" data-slider-prev>{% render 'icon', icon: 'arrow-right' %}</button>
+        <button class="icon-button" type="button" data-slider-next>{% render 'icon', icon: 'arrow-right' %}</button>
+      </div>
+    </div>
+    <div class="slider" data-slider>
+      {%- for block in section.blocks -%}
+        <article class="testimonial-card card" {{ block.shopify_attributes }}>
+          <div class="testimonial-card__content stack">
+            <span class="badge">{{ block.settings.context }}</span>
+            <h3>“{{ block.settings.quote }}”</h3>
+            <p>{{ block.settings.name }}</p>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials slider",
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Endlich ein Snack, der sich modern anfühlt und trotzdem richtig Spaß macht." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Leonie, Berlin" },
+        { "type": "text", "id": "context", "label": "Context", "default": "Früher Tester" }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Stimmen" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "So klingt Edelpop im echten Leben." }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials slider",
+      "blocks": [
+        { "type": "quote" },
+        { "type": "quote", "settings": { "quote": "Caramel ist Filmabend, aber in erwachsen.", "name": "Nina, München", "context": "Launch tasting" } },
+        { "type": "quote", "settings": { "quote": "Cheese & Herbs fühlt sich sofort retail-ready an.", "name": "David, Hamburg", "context": "Buyer feedback" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/retailer-strip.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="stack">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.text }}</p>
+    </div>
+    <div class="retailer-strip__grid grid">
+      {%- for block in section.blocks -%}
+        <div class="retailer-card card" {{ block.shopify_attributes }}>
+          <div class="stack">
+            <strong>{{ block.settings.name }}</strong>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="cluster">
+      <a class="btn btn--primary" href="{{ section.settings.link }}">{{ section.settings.link_label }}</a>
+      <span class="badge">{{ section.settings.badge }}</span>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Retailer strip",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Proof & Retail" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Bald auch dort, wo gute Snacks schnell verschwinden." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Platzhalter für Händler, Presse, Retailer und Wholesale-Signale. So bleibt der Bereich jetzt nutzbar und später schnell austauschbar." },
+    { "type": "text", "id": "link_label", "label": "CTA label", "default": "Jetzt Händler werden" },
+    { "type": "url", "id": "link", "label": "CTA link" },
+    { "type": "text", "id": "badge", "label": "Badge", "default": "Bald im Handel" }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Proof card",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Retailer Placeholder" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Hier können später Stockists, Presse oder Partner stehen." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Retailer strip",
+      "blocks": [
+        { "type": "logo", "settings": { "name": "Bald im Handel", "text": "Future-facing retail proof." } },
+        { "type": "logo", "settings": { "name": "Wholesale ready", "text": "Kontakt für Buyer und Distributoren." } },
+        { "type": "logo", "settings": { "name": "Press placeholder", "text": "Für bekannte Medien oder Awards." } },
+        { "type": "logo", "settings": { "name": "Social proof", "text": "Creator, Tastings, Community." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/lifestyle-gallery.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="stack">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="gallery-grid grid">
+      {%- for block in section.blocks -%}
+        <figure class="media-shell" style="aspect-ratio: {{ block.settings.aspect_ratio }};" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '320,480,720,960,1200', alt: block.settings.caption }}
+          {%- else -%}
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Lifestyle gallery",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Editorial Gallery" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Gemacht für Tisch, Desk, Sofa und jede kleine Pause dazwischen." }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "caption", "label": "Caption" },
+        { "type": "text", "id": "aspect_ratio", "label": "Aspect ratio", "default": "1 / 1" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lifestyle gallery",
+      "blocks": [
+        { "type": "image", "settings": { "aspect_ratio": "1.5 / 1" } },
+        { "type": "image", "settings": { "aspect_ratio": "1 / 1" } },
+        { "type": "image", "settings": { "aspect_ratio": "1 / 1" } },
+        { "type": "image", "settings": { "aspect_ratio": "1.2 / 1" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/newsletter-cta.liquid
+
+<section class="section newsletter-cta">
+  <div class="page-width">
+    <div class="newsletter-cta__shell card">
+      <div class="stack">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+        <p class="lead">{{ section.settings.text }}</p>
+      </div>
+      <div>
+        {%- form 'customer', class: 'newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="field">
+            <label class="visually-hidden" for="NewsletterEmail">{{ 'general.newsletter.email' | t }}</label>
+            <input id="NewsletterEmail" type="email" name="contact[email]" placeholder="{{ 'general.newsletter.email' | t }}" required>
+          </div>
+          <button class="btn btn--primary" type="submit">{{ section.settings.button_label }}</button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter CTA",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Newsletter" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Bleib nah dran an Launch, Sorten und Retail-News." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Kurz, klar und nur dann, wenn es etwas wirklich Spannendes gibt." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Eintragen" }
+  ],
+  "presets": [
+    { "name": "Newsletter CTA" }
+  ]
+}
+{% endschema %}
+
+
+FILE: snippets/product-card.liquid
+
+{%- liquid
+  assign card_product = product
+  assign descriptor = card_product.metafields.custom.short_descriptor.value | default: 'product.descriptor' | t
+-%}
+<article class="product-card card">
+  <a href="{{ card_product.url }}" class="product-card__media media-shell">
+    {%- if card_product.featured_image -%}
+      {{ card_product.featured_image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '240,360,480,720', sizes: '(min-width: 750px) 25vw, 50vw', alt: card_product.featured_image.alt | default: card_product.title }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </a>
+  <div class="product-card__content stack">
+    <div class="cluster">
+      {%- if card_product.available -%}
+        <span class="badge">{{ 'general.labels.bestseller' | t }}</span>
+      {%- endif -%}
+      {%- if card_product.compare_at_price > card_product.price -%}
+        <span class="badge">{{ 'general.labels.save' | t }}</span>
+      {%- endif -%}
+    </div>
+    <div class="stack">
+      <h3><a href="{{ card_product.url }}">{{ card_product.title }}</a></h3>
+      <p>{{ descriptor }}</p>
+    </div>
+    <div class="product-card__meta">
+      <span class="price">{{ card_product.price | money }}</span>
+      <a class="btn btn--ghost" href="{{ card_product.url }}">{{ 'general.buttons.shop_now' | t }}</a>
+    </div>
+  </div>
+</article>
+
+
+FILE: snippets/icon.liquid
+
+{%- liquid
+  assign icon_name = icon | default: 'arrow-right'
+-%}
+<span class="icon icon--{{ icon_name }}" aria-hidden="true">
+  {%- case icon_name -%}
+    {%- when 'menu' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    {%- when 'close' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    {%- when 'cart' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5h2l2.4 9.5a1 1 0 0 0 1 .75h8.9a1 1 0 0 0 .98-.78L20 8H7"/><circle cx="10" cy="19" r="1.5"/><circle cx="18" cy="19" r="1.5"/></svg>
+    {%- when 'search' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    {%- when 'sun-moon' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v2.2M12 18.8V21M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M3 12h2.2M18.8 12H21M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/><path d="M14.5 7.8a5.5 5.5 0 1 0 1.7 8.5 6 6 0 1 1-1.7-8.5Z"/></svg>
+    {%- when 'chevron-down' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 9 6 6 6-6"/></svg>
+    {%- when 'arrow-right' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+    {%- when 'plus' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+    {%- when 'minus' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14"/></svg>
+    {%- else -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/></svg>
+  {%- endcase -%}
+</span>
+
+
+FILE: sections/main-product.liquid
+
+<section class="section">
+  <div class="page-width">
+    <div class="product-page">
+      <div class="stack">
+        <div class="product-gallery">
+          {%- for media in product.media -%}
+            <div class="product-gallery__item" tabindex="0">
+              {{ media | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '480,720,960,1200,1400', alt: media.alt | default: product.title }}
+            </div>
+          {%- else -%}
+            <div class="product-gallery__item">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="product-buybox">
+        <span class="eyebrow">{{ product.vendor | default: shop.name }}</span>
+        <h1>{{ product.title }}</h1>
+        <p class="lead">{{ product.metafields.custom.short_descriptor.value | default: 'product.descriptor' | t }}</p>
+        <div class="cluster" style="align-items: center;">
+          <span class="price">{{ product.price | money }}</span>
+          {%- if product.compare_at_price > product.price -%}
+            <span class="badge">{{ 'general.labels.save' | t }}</span>
+          {%- endif -%}
+        </div>
+        <div class="pill-row">
+          <span class="badge">{{ 'product.benefits.roasted' | t }}</span>
+          <span class="badge">{{ 'product.benefits.light' | t }}</span>
+          <span class="badge">{{ 'product.benefits.routine' | t }}</span>
+        </div>
+
+        {% form 'product', product, class: 'product-form' %}
+          {%- unless product.has_only_default_variant -%}
+            <div class="field">
+              <label for="VariantSelect">{{ product.options_with_values.first.name }}</label>
+              <select id="VariantSelect" name="id">
+                {%- for variant in product.variants -%}
+                  <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>
+                    {{ variant.title }} · {{ variant.price | money }}
+                  </option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- else -%}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          {%- endunless -%}
+
+          <div class="product-form__actions">
+            <div class="qty-selector">
+              <button type="button" data-qty-button="-1" aria-label="Minus">{% render 'icon', icon: 'minus' %}</button>
+              <input type="number" name="quantity" value="1" min="1" aria-label="{{ 'product.quantity' | t }}">
+              <button type="button" data-qty-button="1" aria-label="Plus">{% render 'icon', icon: 'plus' %}</button>
+            </div>
+            <button type="submit" class="btn btn--primary">{{ 'general.buttons.add_to_cart' | t }}</button>
+          </div>
+        {% endform %}
+
+        <div class="accordion">
+          <div class="accordion__item is-open">
+            <button class="accordion__button" type="button" data-accordion-button aria-expanded="true">{{ 'product.flavor_notes' | t }} {% render 'icon', icon: 'chevron-down' %}</button>
+            <div class="accordion__content"><p>{{ product.metafields.custom.flavor_notes.value | default: 'Knuspriger Auftakt, klarer Geschmack, sauberer Finish.' }}</p></div>
+          </div>
+          <div class="accordion__item">
+            <button class="accordion__button" type="button" data-accordion-button aria-expanded="false">{{ 'product.texture_notes' | t }} {% render 'icon', icon: 'chevron-down' %}</button>
+            <div class="accordion__content"><p>{{ product.metafields.custom.texture_notes.value | default: 'Leicht, geröstet, crisp ohne Schwere.' }}</p></div>
+          </div>
+          <div class="accordion__item">
+            <button class="accordion__button" type="button" data-accordion-button aria-expanded="false">{{ 'product.ingredients' | t }} {% render 'icon', icon: 'chevron-down' %}</button>
+            <div class="accordion__content"><p>{{ product.description | strip_html | default: 'Zutaten und Allergenhinweise hier ergänzen.' }}</p></div>
+          </div>
+          <div class="accordion__item">
+            <button class="accordion__button" type="button" data-accordion-button aria-expanded="false">{{ 'product.shipping' | t }} {% render 'icon', icon: 'chevron-down' %}</button>
+            <div class="accordion__content"><p>Versand-, Liefer- und Retourenhinweise als Platzhalter. Im Theme Editor oder Produkttext anpassbar.</p></div>
+          </div>
+        </div>
+
+        <div class="sticky-atc">
+          <div>
+            <strong>{{ product.title }}</strong>
+            <div class="price">{{ product.price | money }}</div>
+          </div>
+          <button class="btn btn--primary" type="button" data-sticky-atc>{{ 'general.buttons.add_to_cart' | t }}</button>
+        </div>
+      </div>
+    </div>
+
+    {%- assign related_collection = product.collections.first -%}
+    {%- if related_collection != blank and related_collection.products_count > 1 -%}
+      <div class="section stack">
+        <div class="stack">
+          <span class="eyebrow">{{ 'product.related' | t }}</span>
+          <h2>{{ 'product.related' | t }}</h2>
+        </div>
+        <div class="product-grid grid">
+          {%- for related_product in related_collection.products limit: 4 -%}
+            {%- unless related_product.id == product.id -%}
+              {% render 'product-card', product: related_product %}
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main product",
+  "settings": []
+}
+{% endschema %}
+
+
+FILE: sections/main-collection-product-grid.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="collection-hero">
+      <div class="collection-hero__shell card">
+        <div class="stack">
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+          <h1>{{ collection.title }}</h1>
+          <p class="lead">{{ collection.description | strip_html | default: section.settings.fallback_text }}</p>
+        </div>
+        <div class="media-shell" style="aspect-ratio: 1 / 1;">
+          {%- if collection.featured_image -%}
+            {{ collection.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '480,720,960,1200', alt: collection.title }}
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="collection-layout">
+      <aside class="facets card" aria-label="Filters">
+        <div class="stack" style="padding: 1rem;">
+          <strong>{{ section.settings.filter_title }}</strong>
+          {%- for filter in collection.filters -%}
+            <details>
+              <summary>{{ filter.label }}</summary>
+              <div class="stack" style="padding-top: 0.75rem;">
+                {%- for value in filter.values -%}
+                  <label class="cluster">
+                    <input type="checkbox" disabled {% if value.active %}checked{% endif %}>
+                    <span>{{ value.label }} ({{ value.count }})</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </details>
+          {%- else -%}
+            <p>{{ section.settings.filter_empty }}</p>
+          {%- endfor -%}
+        </div>
+      </aside>
+
+      <div class="stack">
+        <div class="filter-bar">
+          <span>{{ collection.products_count }} Produkte</span>
+          {%- paginate collection.products by section.settings.products_per_page -%}
+            <form method="get">
+              <label class="visually-hidden" for="SortBy">Sortieren</label>
+              <select id="SortBy" name="sort_by" onchange="this.form.submit()">
+                {%- for option in collection.sort_options -%}
+                  <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+                {%- endfor -%}
+              </select>
+            </form>
+          {%- endpaginate -%}
+        </div>
+        {%- paginate collection.products by section.settings.products_per_page -%}
+          {%- if collection.products_count > 0 -%}
+            <div class="product-grid grid">
+              {%- for product in collection.products -%}
+                {% render 'product-card', product: product %}
+              {%- endfor -%}
+            </div>
+            <div class="cluster" style="justify-content: center;">
+              {%- if paginate.previous -%}<a class="btn btn--secondary" href="{{ paginate.previous.url }}">Zurück</a>{%- endif -%}
+              {%- if paginate.next -%}<a class="btn btn--primary" href="{{ paginate.next.url }}">Mehr laden</a>{%- endif -%}
+            </div>
+          {%- else -%}
+            <div class="card empty-state">
+              <h2>{{ 'general.empty.collection' | t }}</h2>
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main collection grid",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop All" },
+    { "type": "textarea", "id": "fallback_text", "label": "Fallback text", "default": "Drei Sorten, klare Produktkarten und mobile-first Discovery für den schnellsten Weg zum ersten Kauf." },
+    { "type": "text", "id": "filter_title", "label": "Filter title", "default": "Entdecken" },
+    { "type": "text", "id": "filter_empty", "label": "Empty filter text", "default": "Filter erscheinen, sobald Shopify Collection-Filter aktiv sind." },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 4, "max": 24, "step": 4, "default": 8 }
+  ]
+}
+{% endschema %}
+
+
+FILE: sections/page-about-content.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="page-hero">
+      <div class="page-hero__shell card">
+        <div class="stack">
+          <span class="eyebrow">Über Edelpop</span>
+          <h1>{{ section.settings.heading }}</h1>
+          <p class="lead">{{ section.settings.intro }}</p>
+        </div>
+        <div class="media-shell" style="aspect-ratio: 1 / 1;">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '480,720,960,1200', alt: section.settings.heading }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    <div class="grid" style="grid-template-columns: 1fr; gap: 1rem;">
+      {%- for block in section.blocks -%}
+        <div class="card" style="padding: 1.25rem;" {{ block.shopify_attributes }}>
+          <div class="stack">
+            <span class="eyebrow">{{ block.settings.kicker }}</span>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    <a class="btn btn--primary" href="/collections/all">Jetzt entdecken</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About content",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Warum Edelpop existiert" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Edelpop macht aus Makhana einen modernen Snack mit Premium-Gefühl, starker Regalwirkung und einer warmen, spielerischen Sprache." },
+    { "type": "image_picker", "id": "image", "label": "Image" }
+  ],
+  "blocks": [
+    {
+      "type": "story",
+      "name": "Story block",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker", "default": "Philosophie" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Snack neu gedacht" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Nicht generisch gesund, nicht billig laut, sondern modern, retail-ready und begehrenswert." }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: templates/page.about.json
+
+{
+  "sections": {
+    "main": {
+      "type": "page-about-content",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: sections/page-why-edelpop-content.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="page-hero">
+      <div class="page-hero__shell card">
+        <div class="stack">
+          <span class="eyebrow">Why Edelpop</span>
+          <h1>{{ section.settings.heading }}</h1>
+          <p class="lead">{{ section.settings.intro }}</p>
+        </div>
+        <div class="media-shell" style="aspect-ratio: 1 / 1;">{{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+      </div>
+    </div>
+    <div class="benefits-grid grid">
+      {%- for block in section.blocks -%}
+        <div class="card" style="padding: 1rem;" {{ block.shopify_attributes }}>
+          <div class="stack">
+            <span class="eyebrow">{{ block.settings.kicker }}</span>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="accordion">
+      <div class="accordion__item is-open">
+        <button class="accordion__button" type="button" data-accordion-button aria-expanded="true">Was ist Makhana? {% render 'icon', icon: 'chevron-down' %}</button>
+        <div class="accordion__content"><p>Makhana sind geröstete Foxnuts mit leichtem Crunch und eigenständigem Charakter. In dieser Theme-Version ist der Bereich bewusst merchandising-orientiert und einfach austauschbar.</p></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__button" type="button" data-accordion-button aria-expanded="false">Warum wirkt Edelpop anders? {% render 'icon', icon: 'chevron-down' %}</button>
+        <div class="accordion__content"><p>Weil Produkt, Design, Story und mobile UX auf denselben Premium-Moment einzahlen.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why Edelpop content",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Was Makhana besonders macht und warum Edelpop daraus mehr macht." },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Diese Seite erklärt das Produkt, ohne trocken zu wirken: klar, hochwertig, kommerziell." }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker", "default": "Produkt" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Geröstet statt frittiert" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Ein klarer, zeitgemäßer Snack-Moment mit leichterem Gefühl." }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: templates/page.why-edelpop.json
+
+{
+  "sections": {
+    "main": {
+      "type": "page-why-edelpop-content",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: sections/page-faq-content.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="stack">
+      <span class="eyebrow">FAQ</span>
+      <h1>{{ section.settings.heading }}</h1>
+      <p class="lead">{{ section.settings.intro }}</p>
+    </div>
+    <div class="accordion">
+      {%- for block in section.blocks -%}
+        <div class="accordion__item {% if forloop.first %}is-open{% endif %}" {{ block.shopify_attributes }}>
+          <button class="accordion__button" type="button" data-accordion-button aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+            {{ block.settings.question }} {% render 'icon', icon: 'chevron-down' %}
+          </button>
+          <div class="accordion__content">
+            <p>{{ block.settings.answer }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ content",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Häufige Fragen" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Produkte, Zutaten, Versand, Retouren und Wholesale kompakt erklärt." }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Was ist Edelpop?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Edelpop ist ein Premium-Snack auf Basis gerösteter Foxnuts / Makhana." }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: templates/page.faq.json
+
+{
+  "sections": {
+    "main": {
+      "type": "page-faq-content",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: sections/page-contact-content.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="page-hero">
+      <div class="page-hero__shell card">
+        <div class="stack">
+          <span class="eyebrow">Kontakt</span>
+          <h1>{{ section.settings.heading }}</h1>
+          <p class="lead">{{ section.settings.intro }}</p>
+        </div>
+        <div class="stack">
+          <div class="card surface-muted" style="padding: 1rem;">
+            <strong>Customer Support</strong>
+            <p>{{ section.settings.support_text }}</p>
+          </div>
+          <div class="card surface-muted" style="padding: 1rem;">
+            <strong>Wholesale & Press</strong>
+            <p>{{ section.settings.wholesale_text }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% form 'contact', class: 'contact-form card', style: 'padding: 1rem;' %}
+      <div class="field">
+        <label class="visually-hidden" for="ContactName">Name</label>
+        <input id="ContactName" type="text" name="contact[name]" placeholder="Name">
+      </div>
+      <div class="field">
+        <label class="visually-hidden" for="ContactEmail">E-Mail</label>
+        <input id="ContactEmail" type="email" name="contact[email]" placeholder="E-Mail" required>
+      </div>
+      <div class="field">
+        <label class="visually-hidden" for="ContactMessage">Nachricht</label>
+        <textarea id="ContactMessage" name="contact[body]" placeholder="Nachricht"></textarea>
+      </div>
+      <button class="btn btn--primary" type="submit">Nachricht senden</button>
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact content",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Sprich mit Edelpop" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Für Fragen, Händleranfragen, Presse oder einfach guten Geschmack." },
+    { "type": "textarea", "id": "support_text", "label": "Support text", "default": "Antworten zu Produkten, Bestellungen und allem rund um deinen Snack-Moment." },
+    { "type": "textarea", "id": "wholesale_text", "label": "Wholesale text", "default": "Für Retailer, Buyer und Distributor-Anfragen mit Fokus auf Range, POS und Launch." }
+  ]
+}
+{% endschema %}
+
+
+FILE: templates/page.contact.json
+
+{
+  "sections": {
+    "main": {
+      "type": "page-contact-content",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: sections/page-wholesale-content.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="page-hero">
+      <div class="page-hero__shell card">
+        <div class="stack">
+          <span class="eyebrow">Wholesale</span>
+          <h1>{{ section.settings.heading }}</h1>
+          <p class="lead">{{ section.settings.intro }}</p>
+          <a class="btn btn--primary" href="/pages/contact">Jetzt Händler werden</a>
+        </div>
+        <div class="media-shell" style="aspect-ratio: 1 / 1;">{{ 'product-3' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+      </div>
+    </div>
+    <div class="benefits-grid grid">
+      {%- for block in section.blocks -%}
+        <div class="card" style="padding: 1rem;" {{ block.shopify_attributes }}>
+          <div class="stack">
+            <span class="eyebrow">{{ block.settings.kicker }}</span>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Wholesale content",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Edelpop für Regal, Theke und moderne Snack-Kategorie." },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Für Händler entwickelt, die Premium-Snacking zeitgemäß inszenieren wollen." }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker", "default": "Shelf" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Retail-ready Packaging" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Klare Front-of-pack Story, visuelle Wiedererkennbarkeit und gute Range-Logik." }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: templates/page.wholesale.json
+
+{
+  "sections": {
+    "main": {
+      "type": "page-wholesale-content",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: sections/page-stockists-content.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="stack">
+      <span class="eyebrow">Stockists</span>
+      <h1>{{ section.settings.heading }}</h1>
+      <p class="lead">{{ section.settings.intro }}</p>
+    </div>
+    <div class="benefits-grid grid">
+      {%- for block in section.blocks -%}
+        <div class="card" style="padding: 1rem;" {{ block.shopify_attributes }}>
+          <div class="stack">
+            <span class="eyebrow">{{ block.settings.region }}</span>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    <a class="btn btn--primary" href="/pages/contact">Edelpop in deiner Nähe?</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stockists content",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Wo du Edelpop findest" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Platzhalter für Regionen, Online-Shops und Retail-Partner." }
+  ],
+  "blocks": [
+    {
+      "type": "stockist",
+      "name": "Stockist",
+      "settings": [
+        { "type": "text", "id": "region", "label": "Region", "default": "Berlin" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Retailer Placeholder" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Adresse oder Shop-Info hier ergänzen." }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+FILE: templates/page.stockists.json
+
+{
+  "sections": {
+    "main": {
+      "type": "page-stockists-content",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: sections/page-bundles-content.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="page-hero">
+      <div class="page-hero__shell card">
+        <div class="stack">
+          <span class="eyebrow">Bundles</span>
+          <h1>{{ section.settings.heading }}</h1>
+          <p class="lead">{{ section.settings.intro }}</p>
+        </div>
+        <div class="media-shell" style="aspect-ratio: 1 / 1;">{{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+      </div>
+    </div>
+    <div class="product-grid grid">
+      {%- assign source_collection = section.settings.collection -%}
+      {%- if source_collection != blank and source_collection.products_count > 0 -%}
+        {%- for product in source_collection.products limit: 4 -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..3) -%}
+          <article class="product-card card">
+            <div class="product-card__media media-shell">{{ 'product-3' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+            <div class="product-card__content stack">
+              <h3>Bundle {{ i }}</h3>
+              <p>Probieren, teilen oder verschenken.</p>
+              <span class="price">€12,90</span>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bundles content",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Probierpakete mit klarer Merchandising-Story." },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Für Erstkauf, Geschenk oder den schnellsten Einstieg in die ganze Range." },
+    { "type": "collection", "id": "collection", "label": "Collection" }
+  ]
+}
+{% endschema %}
+
+
+FILE: templates/page.bundles.json
+
+{
+  "sections": {
+    "main": {
+      "type": "page-bundles-content",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: sections/main-blog.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="page-hero">
+      <div class="page-hero__shell card">
+        <div class="stack">
+          <span class="eyebrow">Journal</span>
+          <h1>{{ blog.title }}</h1>
+          <p class="lead">{{ blog.metafields.custom.intro.value | default: 'Stories über Makhana, moderne Snack-Momente und den Blick hinter Edelpop.' }}</p>
+        </div>
+        <div class="media-shell" style="aspect-ratio: 1 / 1;">{{ 'blog-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+      </div>
+    </div>
+
+    {%- paginate blog.articles by 9 -%}
+      {%- if blog.articles_count > 0 -%}
+        <div class="blog-grid grid">
+          {%- for article in blog.articles -%}
+            <article class="editorial-card card">
+              <a class="media-shell" href="{{ article.url }}" style="aspect-ratio: 1 / 1;">
+                {%- if article.image -%}
+                  {{ article.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '320,480,640,900', alt: article.title }}
+                {%- else -%}
+                  {{ 'blog-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </a>
+              <div class="editorial-card__content stack">
+                <span class="eyebrow">{{ article.published_at | date: '%d.%m.%Y' }}</span>
+                <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+                <p>{{ article.excerpt_or_content | strip_html | truncatewords: 24 }}</p>
+                <a class="btn btn--ghost" href="{{ article.url }}">{{ 'general.buttons.read_more' | t }}</a>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="card empty-state">
+          <p>{{ 'general.empty.blog' | t }}</p>
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main blog",
+  "settings": []
+}
+{% endschema %}
+
+
+FILE: templates/blog.json
+
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: sections/main-article.liquid
+
+<article class="section">
+  <div class="page-width stack" style="max-width: 50rem;">
+    <span class="eyebrow">{{ article.blog.title }}</span>
+    <h1>{{ article.title }}</h1>
+    <p class="lead">{{ article.excerpt_or_content | strip_html | truncatewords: 30 }}</p>
+    {%- if article.image -%}
+      <div class="media-shell">
+        {{ article.image | image_url: width: 1600 | image_tag: loading: 'eager', widths: '480,720,960,1200,1600', alt: article.title }}
+      </div>
+    {%- endif -%}
+    <div class="rte">
+      {{ article.content }}
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Main article",
+  "settings": []
+}
+{% endschema %}
+
+
+FILE: templates/article.json
+
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: sections/cart-drawer.liquid
+
+<div id="cart-drawer" class="drawer drawer--right" aria-hidden="true">
+  <div class="drawer__scrim"></div>
+  <div class="drawer__panel">
+    <div class="drawer__header">
+      <h2>{{ 'cart.title' | t }}</h2>
+      <button class="icon-button" type="button" data-close-drawer aria-label="{{ 'accessibility.close' | t }}">
+        {% render 'icon', icon: 'close' %}
+      </button>
+    </div>
+    <div class="drawer__body">
+      {%- if cart.item_count > 0 -%}
+        <div class="cart-drawer-items">
+          {%- for item in cart.items -%}
+            <article class="cart-line">
+              <a class="cart-line__media" href="{{ item.url }}">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120,180,240', alt: item.product.title }}
+                {%- endif -%}
+              </a>
+              <div class="stack">
+                <strong>{{ item.product.title }}</strong>
+                <p>{{ item.variant.title }}</p>
+                <span class="price">{{ item.final_line_price | money }}</span>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="empty-state">
+          <p>{{ 'general.empty.cart' | t }}</p>
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="drawer__footer stack">
+      <div class="cluster" style="justify-content: space-between;">
+        <strong>{{ 'cart.subtotal' | t }}</strong>
+        <strong>{{ cart.total_price | money }}</strong>
+      </div>
+      <a class="btn btn--primary" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a>
+      <a class="btn btn--secondary" href="/checkout">{{ 'cart.checkout' | t }}</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": []
+}
+{% endschema %}
+
+
+FILE: sections/main-cart.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="stack">
+      <span class="eyebrow">{{ 'cart.title' | t }}</span>
+      <h1>{{ 'cart.title' | t }}</h1>
+    </div>
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" novalidate>
+        <div class="cart-page__items">
+          {%- for item in cart.items -%}
+            <article class="cart-line card" style="padding: 0.75rem;">
+              <div class="cart-line__media">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '120,180,240,360', alt: item.product.title }}
+                {%- endif -%}
+              </div>
+              <div class="stack">
+                <strong>{{ item.product.title }}</strong>
+                <p>{{ item.variant.title }}</p>
+                <div class="qty-selector">
+                  <button type="button" data-qty-button="-1">{% render 'icon', icon: 'minus' %}</button>
+                  <input type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+                  <button type="button" data-qty-button="1">{% render 'icon', icon: 'plus' %}</button>
+                </div>
+                <span class="price">{{ item.final_line_price | money }}</span>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+        <div class="card" style="padding: 1rem;">
+          <div class="stack">
+            <div class="cluster" style="justify-content: space-between;">
+              <strong>{{ 'cart.subtotal' | t }}</strong>
+              <strong>{{ cart.total_price | money }}</strong>
+            </div>
+            <button class="btn btn--secondary" type="submit">Aktualisieren</button>
+            <button class="btn btn--primary" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="card empty-state">
+        <p>{{ 'general.empty.cart' | t }}</p>
+        <a class="btn btn--primary" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue_shopping' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main cart",
+  "settings": []
+}
+{% endschema %}
+
+
+FILE: templates/cart.json
+
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: sections/main-search.liquid
+
+<section class="section">
+  <div class="page-width stack">
+    <div class="search-hero">
+      <div class="search-hero__shell card">
+        <div class="stack">
+          <span class="eyebrow">{{ 'accessibility.search' | t }}</span>
+          <h1>{{ section.settings.heading }}</h1>
+          <p class="lead">{{ section.settings.text }}</p>
+        </div>
+        <div>
+          <form action="{{ routes.search_url }}" method="get" class="search-form">
+            <div class="field">
+              <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.navigation.search_placeholder' | t }}">
+            </div>
+            <button class="btn btn--primary" type="submit">{{ 'accessibility.search' | t }}</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <div class="product-grid grid">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item %}
+            {%- else -%}
+              <article class="editorial-card card">
+                <div class="editorial-card__content stack">
+                  <span class="eyebrow">{{ item.object_type }}</span>
+                  <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
+                  <p>{{ item.content | strip_html | truncatewords: 22 }}</p>
+                </div>
+              </article>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="card empty-state">
+          <p>{{ 'general.empty.search' | t }}</p>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main search",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Finde Sorten, Seiten und Stories." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Die Suche ist bewusst klar gehalten und funktioniert für Produkte, Seiten und Journal-Inhalte." }
+  ]
+}
+{% endschema %}
+
+
+FILE: templates/search.json
+
+{
+  "sections": {
+    "main": {
+      "type": "main-search",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: sections/main-404.liquid
+
+<section class="section">
+  <div class="page-width">
+    <div class="card empty-state">
+      <span class="eyebrow">404</span>
+      <h1>Hier ist gerade kein Snack zu finden.</h1>
+      <p>Die Seite existiert nicht oder wurde verschoben.</p>
+      <a class="btn btn--primary" href="{{ routes.root_url }}">{{ 'general.buttons.shop_now' | t }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main 404",
+  "settings": []
+}
+{% endschema %}
+
+
+FILE: templates/404.json
+
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: templates/index.json
+
+{
+  "sections": {
+    "hero": { "type": "hero-edelpop", "settings": {} },
+    "trust": { "type": "trust-strip", "settings": {} },
+    "categories": { "type": "category-cards", "settings": {} },
+    "statement": { "type": "brand-statement", "settings": {} },
+    "benefits": { "type": "benefits-icons", "settings": {} },
+    "featured": { "type": "featured-flavor", "settings": {} },
+    "bestsellers": { "type": "bestsellers-grid", "settings": {} },
+    "bundle": { "type": "bundle-spotlight", "settings": {} },
+    "testimonials": { "type": "testimonials-slider", "settings": {} },
+    "retailer": { "type": "retailer-strip", "settings": {} },
+    "gallery": { "type": "lifestyle-gallery", "settings": {} },
+    "newsletter": { "type": "newsletter-cta", "settings": {} }
+  },
+  "order": ["hero", "trust", "categories", "statement", "benefits", "featured", "bestsellers", "bundle", "testimonials", "retailer", "gallery", "newsletter"]
+}
+
+
+FILE: templates/product.json
+
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: templates/collection.json
+
+{
+  "sections": {
+    "main": {
+      "type": "main-collection-product-grid",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+
+
+FILE: README.md
+
+# Edelpop Shopify Theme
+
+Production-minded Shopify Online Store 2.0 starter theme for Edelpop, built mobile-first with German as the default language and English as the secondary locale.
+
+## What is included
+
+- OS 2.0 architecture with `layout`, `sections`, `snippets`, `templates`, `assets`, `config`, and `locales`
+- Long-scroll, configurable homepage
+- Mobile-first product, collection, cart, search, and editorial templates
+- Tokenized light mode and dark mode
+- German-first translations with English parity
+- Merchant-editable section schemas for key homepage and content blocks
+
+## How to preview in Shopify
+
+1. Create a new Shopify theme in a development store.
+2. Upload the full folder structure from this repository.
+3. In the Shopify theme editor, assign:
+   - `page.about` to the About page
+   - `page.why-edelpop` to the Why Edelpop page
+   - `page.faq` to the FAQ page
+   - `page.contact` to the Contact page
+   - `page.wholesale` to the Wholesale page
+   - `page.stockists` to the Stockists page
+   - `page.bundles` to the Bundles page
+4. Create or connect products, collections, blog posts, and navigation as needed.
+
+## Where to replace brand assets
+
+- Logo:
+  - Theme settings → `Brand assets` → `Logo`
+  - Optional inverse logo for dark mode: `logo_inverse`
+- Fonts:
+  - Theme settings → `Brand assets`
+  - Update `font_display`, `font_heading`, `font_body`
+- Colors:
+  - Theme settings → `Light mode colors`
+  - Theme settings → `Dark mode colors`
+- Hero packshots and homepage imagery:
+  - Shopify theme editor → each homepage section block/image setting
+- Product packshots:
+  - Replace through Shopify product media
+- Lifestyle imagery:
+  - Homepage `brand-statement`, `featured-flavor`, `lifestyle-gallery`
+  - Page hero sections in the customizer
+
+## Where to replace copy
+
+- Theme editor:
+  - Homepage section headings, CTAs, badges, testimonial text, retailer placeholders
+- Locale files:
+  - [locales/de.default.json](/Users/misras/DevSpace/edelpop/locales/de.default.json)
+  - [locales/en.default.json](/Users/misras/DevSpace/edelpop/locales/en.default.json)
+- Editorial page content:
+  - Section settings inside each page template
+
+## Homepage editing map
+
+- Hero: [sections/hero-edelpop.liquid](/Users/misras/DevSpace/edelpop/sections/hero-edelpop.liquid)
+- Trust strip: [sections/trust-strip.liquid](/Users/misras/DevSpace/edelpop/sections/trust-strip.liquid)
+- Category cards: [sections/category-cards.liquid](/Users/misras/DevSpace/edelpop/sections/category-cards.liquid)
+- Brand statement: [sections/brand-statement.liquid](/Users/misras/DevSpace/edelpop/sections/brand-statement.liquid)
+- Benefits: [sections/benefits-icons.liquid](/Users/misras/DevSpace/edelpop/sections/benefits-icons.liquid)
+- Featured flavor: [sections/featured-flavor.liquid](/Users/misras/DevSpace/edelpop/sections/featured-flavor.liquid)
+- Bestsellers: [sections/bestsellers-grid.liquid](/Users/misras/DevSpace/edelpop/sections/bestsellers-grid.liquid)
+- Bundle spotlight: [sections/bundle-spotlight.liquid](/Users/misras/DevSpace/edelpop/sections/bundle-spotlight.liquid)
+- Testimonials: [sections/testimonials-slider.liquid](/Users/misras/DevSpace/edelpop/sections/testimonials-slider.liquid)
+- Retail proof: [sections/retailer-strip.liquid](/Users/misras/DevSpace/edelpop/sections/retailer-strip.liquid)
+- Lifestyle gallery: [sections/lifestyle-gallery.liquid](/Users/misras/DevSpace/edelpop/sections/lifestyle-gallery.liquid)
+- Newsletter CTA: [sections/newsletter-cta.liquid](/Users/misras/DevSpace/edelpop/sections/newsletter-cta.liquid)
+
+## Product and collection editing
+
+- Product card markup: [snippets/product-card.liquid](/Users/misras/DevSpace/edelpop/snippets/product-card.liquid)
+- Product template: [sections/main-product.liquid](/Users/misras/DevSpace/edelpop/sections/main-product.liquid)
+- Collection template: [sections/main-collection-product-grid.liquid](/Users/misras/DevSpace/edelpop/sections/main-collection-product-grid.liquid)
+
+## How to add more flavours or products
+
+1. Add the product in Shopify admin.
+2. Upload product media and complete product description/metafields.
+3. Add the product to the relevant collection.
+4. If needed, add new category cards, bundle references, or homepage hero packshots in the customizer.
+
+## Dark mode
+
+- Toggle is in the header and mobile drawer.
+- Preference is stored in `localStorage` under `edelpop-theme`.
+- Theme tokens are defined in [layout/theme.liquid](/Users/misras/DevSpace/edelpop/layout/theme.liquid) and consumed in [assets/base.css](/Users/misras/DevSpace/edelpop/assets/base.css).
+
+## Language switcher
+
+- Implemented with Shopify localization forms in:
+  - [sections/header.liquid](/Users/misras/DevSpace/edelpop/sections/header.liquid)
+  - [sections/footer.liquid](/Users/misras/DevSpace/edelpop/sections/footer.liquid)
+- Default copy is German.
+- English lives in [locales/en.default.json](/Users/misras/DevSpace/edelpop/locales/en.default.json).
+
+## Notes
+
+- This version intentionally uses configurable tokens instead of hardcoding a final Edelpop identity, so your brand assets can be dropped in without refactoring the theme.
+- Replace placeholder imagery and sample page copy before launch.
+
+
