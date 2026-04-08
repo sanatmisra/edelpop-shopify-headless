@@ -1,11 +1,6 @@
 import {Link} from 'react-router';
 import {ProductCard} from '~/components/ProductCard';
-import {
-  brandAssets,
-  type LocaleCode,
-  prefixPath,
-  siteCopy,
-} from '~/lib/site';
+import {brandAssets, inferFlavor, type LocaleCode, prefixPath, siteCopy} from '~/lib/site';
 
 type HomeSectionsProps = {
   locale: LocaleCode;
@@ -18,106 +13,174 @@ type HomeSectionsProps = {
   }>;
 };
 
+const flavorOrder = ['salt-pepper', 'cheese-herbs', 'caramel'] as const;
+
 export function HomeSections({locale, featuredProducts}: HomeSectionsProps) {
   const copy = siteCopy[locale];
+  const orderedProducts = [...featuredProducts].sort(
+    (left, right) =>
+      flavorOrder.indexOf(inferFlavor(`${left.handle} ${left.title}`)) -
+      flavorOrder.indexOf(inferFlavor(`${right.handle} ${right.title}`)),
+  );
 
   return (
-    <div className="stack page-stack">
-      <section className="hero page-width">
-        <div className="hero__content stack">
-          <div className="stack hero__intro">
-            <span className="eyebrow">{copy.hero.eyebrow}</span>
-            <h1>{copy.hero.title}</h1>
-            <p className="lead">{copy.hero.body}</p>
+    <>
+      <section className="section-shell">
+        <div className="page-width hero">
+          <div className="hero__content stack">
+            <div className="section-intro">
+              <span className="eyebrow">{copy.hero.eyebrow}</span>
+              <h1>{copy.hero.title}</h1>
+              <p className="lead">{copy.hero.body}</p>
+            </div>
+
+            <div className="hero__actions stack">
+              <Link
+                className="button button--primary"
+                to={prefixPath(locale, '/collections/all')}
+              >
+                {copy.hero.primaryCta}
+              </Link>
+              <Link className="text-link" to={prefixPath(locale, '/pages/about')}>
+                {copy.hero.secondaryCta}
+              </Link>
+            </div>
           </div>
-          <div className="hero-proof">{copy.hero.proof}</div>
-          <div className="hero__actions stack">
-            <Link className="button" to={prefixPath(locale, '/collections/all')}>
-              {copy.hero.primaryCta}
-            </Link>
-            <Link className="text-link" to={prefixPath(locale, '/pages/about')}>
-              {copy.hero.secondaryCta}
-            </Link>
+
+          <div className="hero__media">
+            <video
+              className="hero__media-asset"
+              src={brandAssets.heroVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              aria-label={
+                locale === 'de'
+                  ? 'Edelpop Salz und Pfeffer Hero-Video'
+                  : 'Edelpop Salt and Pepper hero video'
+              }
+            />
           </div>
         </div>
+      </section>
 
-        <div className="hero__visual">
-          <div className="hero-media-frame">
+      <section className="section-shell section-shell--alt">
+        <div className="page-width feature-callout">
+          <div className="feature-callout__media">
             <img
-              className="hero-media"
-              src={brandAssets.lifestyle.saltPepperLandscape}
-              alt="Edelpop Salt & Pepper lifestyle hero"
-            />
-            <img
-              className="hero-pack"
+              className="feature-callout__pack"
               src={brandAssets.packaging['salt-pepper'].front}
-              alt="Edelpop Salt & Pepper pack"
+              alt={
+                locale === 'de'
+                  ? 'Edelpop Salz & Pfeffer Packung'
+                  : 'Edelpop Salt & Pepper pack'
+              }
+            />
+          </div>
+
+          <div className="feature-callout__content stack">
+            <div className="section-intro">
+              <span className="eyebrow">{copy.featuredFlavor.eyebrow}</span>
+              <h2>{copy.featuredFlavor.title}</h2>
+              <p className="feature-callout__tagline">{copy.featuredFlavor.tagline}</p>
+              <p className="lead">{copy.featuredFlavor.body}</p>
+            </div>
+
+            <Link
+              className="button button--secondary"
+              to={prefixPath(locale, '/products/salt-pepper')}
+            >
+              {copy.featuredFlavor.cta}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell statement-section">
+        <div className="page-width statement-section__layout">
+          <div className="statement-section__body">
+            <span className="eyebrow">{copy.statement.eyebrow}</span>
+            <h2>{copy.statement.title}</h2>
+
+            <div className="statement-section__grid">
+              {copy.statement.items.map((item) => (
+                <div key={item.label} className="statement-item">
+                  <span className="statement-item__label">{item.label}</span>
+                  <p>{item.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="statement-section__visual">
+            <img
+              src={brandAssets.lifestyle.saltPepperSquare}
+              alt="Edelpop lifestyle detail"
             />
           </div>
         </div>
       </section>
 
-      <section className="page-width product-edit">
-        <div className="section-heading stack">
-          <span className="eyebrow">{locale === 'de' ? 'Die Range' : 'The edit'}</span>
-          <h2>
-            {locale === 'de'
-              ? 'Drei Sorten, klar kuratiert.'
-              : 'Three flavours, cleanly curated.'}
-          </h2>
-          <p className="lead">
-            {locale === 'de'
-              ? 'Salt & Pepper, Cheese & Herbs und Caramel bilden die Kernrange. Jede Sorte bleibt leicht, geröstet und visuell ruhig.'
-              : 'Salt & Pepper, Cheese & Herbs and Caramel form the core range. Each one stays light, roasted and visually restrained.'}
-          </p>
-        </div>
-        <div className="product-grid">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.handle} locale={locale} product={product} />
-          ))}
+      <section className="section-shell section-shell--alt">
+        <div className="page-width range-section">
+          <div className="range-section__header">
+            <span className="eyebrow">{copy.range.eyebrow}</span>
+            <h2>{copy.range.title}</h2>
+            <p className="lead">{copy.range.body}</p>
+          </div>
+
+          <div className="product-grid">
+            {orderedProducts.map((product) => (
+              <ProductCard key={product.handle} locale={locale} product={product} />
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="page-width story-section">
-        <div className="story-section__media">
-          <img
-            src={brandAssets.lifestyle.saltPepperSquare}
-            alt="Edelpop Salt & Pepper lifestyle still"
-          />
-        </div>
-        <div className="story-section__content stack">
-          <span className="eyebrow">{copy.story.eyebrow}</span>
-          <h2>{copy.story.title}</h2>
-          <p className="lead">{copy.story.body}</p>
-          <Link className="text-link" to={prefixPath(locale, '/pages/about')}>
-            {copy.story.cta}
-          </Link>
-        </div>
-      </section>
+      <section className="section-shell section-shell--dark">
+        <div className="page-width story-feature">
+          <div className="story-feature__content stack">
+            <div className="section-intro">
+              <span className="eyebrow">{copy.story.eyebrow}</span>
+              <h2>{copy.story.title}</h2>
+              <p className="lead">{copy.story.body}</p>
+            </div>
 
-      <section className="page-width newsletter-section">
-        <div className="newsletter-section__copy stack">
-          <span className="eyebrow">{copy.newsletter.eyebrow}</span>
-          <h2>{copy.newsletter.title}</h2>
-          <p className="lead">{copy.newsletter.body}</p>
-          <form className="newsletter-form">
-            <input
-              type="email"
-              placeholder={locale === 'de' ? 'E-Mail-Adresse' : 'Email address'}
+            <Link className="text-link" to={prefixPath(locale, '/pages/about')}>
+              {copy.story.cta}
+            </Link>
+          </div>
+
+          <div className="story-feature__media">
+            <img
+              className="story-feature__image"
+              src={brandAssets.lifestyle.saltPepperLandscape}
+              alt="Edelpop lifestyle scene"
             />
-            <button className="button" type="submit">
-              {copy.newsletter.cta}
-            </button>
-          </form>
-        </div>
-        <div className="newsletter-section__visual" aria-hidden="true">
-          <img
-            className="newsletter-pack newsletter-pack--front"
-            src={brandAssets.packaging['salt-pepper'].front}
-            alt=""
-          />
+          </div>
         </div>
       </section>
-    </div>
+
+      <section className="section-shell newsletter-section">
+        <div className="page-width">
+          <div className="newsletter-section__copy">
+            <span className="eyebrow">{copy.newsletter.eyebrow}</span>
+            <h2>{copy.newsletter.title}</h2>
+            <p className="lead">{copy.newsletter.body}</p>
+
+            <form className="newsletter-form">
+              <input
+                type="email"
+                placeholder={locale === 'de' ? 'E-Mail-Adresse' : 'Email address'}
+              />
+              <button className="button button--secondary" type="submit">
+                {copy.newsletter.cta}
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

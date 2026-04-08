@@ -92,7 +92,7 @@ export function inferFlavor(value: string): FlavorKey {
 export const siteCopy = {
   de: {
     brand: 'Edelpop',
-    tagline: 'Premium crunch for modern routines.',
+    tagline: 'Besser als Popcorn!',
     navigation: {
       shop: 'Shop',
       about: 'Über Edelpop',
@@ -102,33 +102,64 @@ export const siteCopy = {
     },
     hero: {
       eyebrow: 'Gerösteter Premium-Snack',
-      title: 'Makhana, neu gedacht.',
-      body: 'Edelpop bringt geröstete Wasserliliensamen in einen ruhigen, modernen Auftritt: leicht im Biss, klar im Geschmack und gemacht für bewusste Snack-Momente.',
-      proof: 'Geröstet statt frittiert. Drei klare Sorten. Luftiger Crunch.',
+      title: 'Knusprig.\nLuftig.\nAnders.',
+      body: 'Edelpop bringt geröstete Wasserliliensamen in einen ruhigen, modernen Auftritt. Leicht im Biss, klar im Geschmack.',
       primaryCta: 'Jetzt Sorten ansehen',
       secondaryCta: 'Mehr zur Marke',
     },
+    featuredFlavor: {
+      eyebrow: 'Hero-Sorte',
+      title: 'Salz & Pfeffer.',
+      tagline: 'Knusprig · Salzig · Fein',
+      body: 'Die erste Sorte. Klar im Charakter, leicht im Biss. Ein Snack, der für sich spricht.',
+      cta: 'Jetzt probieren',
+    },
+    statement: {
+      eyebrow: 'Leicht genießen',
+      title: 'Ein Snack, der sich leicht anfühlt —\nvor, während und nach dem Essen.',
+      items: [
+        {
+          label: 'Röstung',
+          body: 'Geröstet statt frittiert',
+        },
+        {
+          label: 'Textur',
+          body: 'Knusprig, dann zart',
+        },
+        {
+          label: 'Moment',
+          body: 'Moderner Premium-Snack',
+        },
+      ],
+    },
+    range: {
+      eyebrow: 'Die Range',
+      title: 'Drei Sorten.\nKlar kuratiert.',
+      body: 'Salt & Pepper, Cheese & Herbs und Caramel bilden die Kernrange.',
+    },
     story: {
       eyebrow: 'Warum Edelpop',
-      title: 'Ein leichterer Snack mit klarerem Auftritt.',
-      body: 'Edelpop verbindet die ruhige Wärme moderner Food-Brands mit der Leichtigkeit von geröstetem Makhana. Keine visuelle Lautstärke, kein schweres Finish, nur eine klare Range für Sofa, Schreibtisch und unterwegs.',
+      title: 'Ein leichterer Snack\nmit klarerem\nAuftritt.',
+      body: 'Edelpop verbindet die ruhige Wärme moderner Food-Brands mit der Leichtigkeit von geröstetem Makhana. Kein fettiges Nachgefühl. Kein Kleben an den Zähnen. Nur eine klare Range.',
       cta: 'Mehr über Edelpop',
     },
     newsletter: {
       eyebrow: 'Post von Edelpop',
-      title: 'Neuigkeiten, wenn es wirklich etwas Neues gibt.',
+      title: 'Neuigkeiten,\nwenn es wirklich\netwas Neues gibt.',
       body: 'Seltene Updates zu Sorten, Launches und neuen Stockists. Kurz, ruhig und relevant.',
       cta: 'Eintragen',
     },
     footer: {
-      intro: 'Gerösteter Makhana mit leichtem Crunch, klarer Range und einem ruhigen Premium-Gefühl.',
+      intro: 'Besser als Popcorn! Ein ruhiger Premium-Snack mit leichterem Gefühl.',
+      meta: 'Instagram',
+      copyright: '© 2025 Edelpop. Alle Rechte vorbehalten.',
     },
     product: {
       descriptor: 'Gerösteter Makhana mit leichtem Crunch und sauberem Finish.',
       flavorDescriptors: {
-        'salt-pepper': 'Salzig, klar und elegant im Alltag.',
-        'cheese-herbs': 'Würzig, weich und fein ausbalanciert.',
-        caramel: 'Sanft süß mit warmer karamelliger Note.',
+        'salt-pepper': 'Knusprig · Salzig · Fein',
+        'cheese-herbs': 'Würzig · Cremig · Mild',
+        caramel: 'Zart · Buttrig · Leicht süß',
       },
       notes: 'Klar im Geschmack, sauber im Finish und gemacht für den schnellen nächsten Griff.',
       texture: 'Leicht, geröstet und angenehm knusprig, ohne schwer zu wirken.',
@@ -156,7 +187,7 @@ export const siteCopy = {
   },
   en: {
     brand: 'Edelpop',
-    tagline: 'Premium crunch for modern routines.',
+    tagline: 'Better than popcorn.',
     navigation: {
       shop: 'Shop',
       about: 'About Edelpop',
@@ -166,33 +197,64 @@ export const siteCopy = {
     },
     hero: {
       eyebrow: 'Roasted premium snack',
-      title: 'Makhana, reintroduced.',
-      body: 'Edelpop brings roasted foxnuts into a softer, more modern format: light on texture, clear in flavour and made for considered snack moments.',
-      proof: 'Roasted, not fried. Three clear flavours. Airy crunch.',
+      title: 'Crunchy.\nAiry.\nDifferent.',
+      body: 'Edelpop brings roasted water lily seeds into a calm, modern format. Light on the bite, clear in flavour.',
       primaryCta: 'Shop flavours',
       secondaryCta: 'About Edelpop',
     },
+    featuredFlavor: {
+      eyebrow: 'Hero flavour',
+      title: 'Salt & Pepper.',
+      tagline: 'Crunchy · Savory · Fine',
+      body: 'The first flavour. Clear in character, light on the bite. A snack that stands on its own.',
+      cta: 'Try it now',
+    },
+    statement: {
+      eyebrow: 'Lightly enjoyed',
+      title: 'A snack that feels light —\nbefore, during and after eating.',
+      items: [
+        {
+          label: 'Roast',
+          body: 'Roasted instead of fried',
+        },
+        {
+          label: 'Texture',
+          body: 'Crunchy, then tender',
+        },
+        {
+          label: 'Moment',
+          body: 'Modern premium snack',
+        },
+      ],
+    },
+    range: {
+      eyebrow: 'The range',
+      title: 'Three flavours.\nClearly curated.',
+      body: 'Salt & Pepper, Cheese & Herbs and Caramel form the core range.',
+    },
     story: {
       eyebrow: 'Why Edelpop',
-      title: 'A lighter snack with a clearer point of view.',
-      body: 'Edelpop pairs the quiet warmth of a modern food brand with the lightness of roasted makhana. No visual noise, no heavy finish, just a focused range for the sofa, the desk, and the in-between moments.',
-      cta: 'About Edelpop',
+      title: 'A lighter snack\nwith a clearer\npoint of view.',
+      body: 'Edelpop pairs the quiet warmth of modern food brands with the lightness of roasted makhana. No greasy afterfeel. No sticking to your teeth. Just a focused range.',
+      cta: 'More about Edelpop',
     },
     newsletter: {
       eyebrow: 'Notes from Edelpop',
-      title: 'Updates, only when there is something worth sharing.',
+      title: 'News,\nonly when there is\nsomething new to share.',
       body: 'Occasional news on flavours, launches and new stockists. Short, calm and relevant.',
       cta: 'Sign up',
     },
     footer: {
-      intro: 'Roasted makhana with light crunch, a focused range and a calm premium feel.',
+      intro: 'Better than popcorn. A calm premium snack with a lighter finish.',
+      meta: 'Instagram',
+      copyright: '© 2025 Edelpop. All rights reserved.',
     },
     product: {
       descriptor: 'Roasted makhana with a light crunch and a clean finish.',
       flavorDescriptors: {
-        'salt-pepper': 'Savory, clean and quietly bold.',
-        'cheese-herbs': 'Rounded, herbaceous and softly rich.',
-        caramel: 'Gently sweet with a warm caramel finish.',
+        'salt-pepper': 'Crunchy · Savory · Fine',
+        'cheese-herbs': 'Savory · Creamy · Mild',
+        caramel: 'Soft · Buttery · Lightly sweet',
       },
       notes: 'Clear in flavour, clean on the finish and made for the next quick reach.',
       texture: 'Light, roasted and pleasantly crunchy without feeling heavy.',
